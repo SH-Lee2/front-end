@@ -52,26 +52,32 @@ export const Imgs = styled.div`
     flex-wrap: wrap;
 `;
 
-export const Card = styled.div`
+export const CardBasic = styled.div`
     flex-basis: 25%;
     margin-bottom: 1.5em;
     padding: 0 0.4em 0.7em 0.4em;
     border-radius: 10px;
+    :hover {
+        transform: scale(1.02);
+        transition: 0.4s;
+        box-shadow: 0 12px 16px hsla(228, 66%, 45%, 0.1);
+    }
+`
+
+export const Card = styled(CardBasic)`
     p {
         margin-bottom: 0.5em;
     }
     #dis {
         color: gray;
         font-size: 0.9rem;
+        @media screen and (max-width: 767px) {
+            font-size: 0.7rem;
+        };
     }
     #color {
         color: black;
     }
-    :hover {
-        transform: scale(1.02);
-        transition: 0.4s;
-        box-shadow: 0 12px 16px hsla(228, 66%, 45%, 0.1);
-    }    
     @media screen and (max-width: 1023px) {
         flex-basis: 50%;
         padding: 0 1.3em 0.7em 1.3em;
@@ -79,9 +85,6 @@ export const Card = styled.div`
     @media screen and (max-width: 767px) {
         font-size: 0.8rem;
         padding: 0 0.4em 0.7em 0.4em;
-        #dis {
-            font-size: 0.7rem;
-        }
     };
 `;
 

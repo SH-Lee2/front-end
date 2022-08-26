@@ -12,7 +12,7 @@ export const TabTitle = styled.div`
     font-size: 1.3rem;
     font-weight: 420;
     border-bottom: 1px solid gray;
-    @media screen and (max-width: 1024px){
+    @media screen and (max-width: 1023px){
         color: white;
         font-size: 0.1rem;
         border-bottom: none;
@@ -23,7 +23,7 @@ export const TabTitle = styled.div`
 export const Title = styled.p`
     font-size: 1.2em;
     padding: 2em 0;
-    @media screen and (max-width: 1024px){
+    @media screen and (max-width: 1023px){
         font-size: 1.3rem;
         padding: 2em 0;
     };

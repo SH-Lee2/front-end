@@ -3,41 +3,33 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import Pagination from '../../components/Pagination';
-import authStore from '../../store/authStore';
+import { AllUser } from '../../services/admins';
 import * as a from '../../styles/Admin';
 import * as i from '../../styles/mypage/TabInner';
-import { PageT } from '../../types/types';
+import { PageT, UserT } from '../../types/types';
 
-interface User {
-    useNo : number,
-    useId :string,
-    useName :string,
-    useNick :string,
-    useRole :string,
-}
-
-const Users = () => {
-    const {userProfile} = authStore();
-    
-    const [data, setData] = useState<User[]>([]);
+const Users = () => {    
+    const [data, setData] = useState<UserT[]>([]);
     const [selected,setSelected] = useState ('0');
 
     const [page, setPage] = useState<PageT>({});
-    const [curPage, setCurPage] = useState(1);
+    const [curPage, setCurPage] = useState(0);
     
     const dels :number[] = [];
     const admins :number[] = [];
 
+    const getUsers = async () => {
+        const res = await AllUser(curPage)
+        setPage(res.data.data.pageable);
+        if (selected === '0') {
+            setData(res.data.data.list.filter((use :UserT) => use.useRole === 'USER'));
+        } else {
+            setData(res.data.data.list.filter((use :UserT) => use.useRole === 'ADMIN'));
+        }        
+    }
+
     useEffect(() => {
-        axios.get('/manager/user', {params: {page: (curPage-1)}} )
-        .then(res => {
-            setPage(res.data.data.pageable);
-            if (selected === '0') {
-                setData(res.data.data.list.filter((use :User) => use.useRole === 'USER'));
-            } else {
-                setData(res.data.data.list.filter((use :User) => use.useRole === 'ADMIN'));
-            }
-        })
+        getUsers()
     },[selected, curPage])
 
     const typeChange = (type :string) => {
@@ -139,7 +131,7 @@ const Users = () => {
                 )}
             </UserList>
             { data && (
-                <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+                <Pagination curPage={curPage+1} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
             )}
         </i.Outline>
     );

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { unescape } from "html-escaper";
 interface Props {
 	useNo: number;
 	enteredTitle: string;
@@ -7,6 +6,7 @@ interface Props {
 	categoryNum: number;
 	selectedRegion: string;
 	selectedWeather: number;
+	uploadImg: string[];
 }
 
 export const postUpload = async ({
@@ -16,14 +16,17 @@ export const postUpload = async ({
 	categoryNum,
 	selectedRegion,
 	selectedWeather,
+	uploadImg,
 }: Props) => {
 	const form = new FormData();
-	form.append("multipartFiles", "");
+	uploadImg.forEach(path=>{
+		form.append("multipartFiles",`{"imgPath" : "${path}"}`)
+	})
 	form.append(
 		"articles",
 		`{"useNo":${useNo}, "artSubject": "${enteredTitle}","artContents": "${enteredWrite}","artCategory":  "${categoryNum}","regNo": "${selectedRegion}","artWSelect" : ${selectedWeather}}`
 	);
-	const res = await axios.post("/article/post", form);
+	const res = await axios.post("/article/testpost", form);
 	return res;
 };
 
@@ -46,8 +49,8 @@ export const getGategoryPosts = async (
 	page: number
 ) => {
 	try {
-		const res = await axios.get(`/article/list/${categoryNum}/${region}`, {
-			params: { page },
+		const res = await axios.get(`/article/list/${categoryNum}`, {
+			params: { page, regNo: region },
 		});
 		return res;
 	} catch (error: any) {
@@ -68,3 +71,11 @@ export const getDetailPost = async (artNo: number) => {
 //  게시물 삭제
 
 //  게시물 수정
+
+//  게시물 사진
+export const uploadImage = async (image: any) => {
+	const form = new FormData();
+	form.append("multipartFiles", image);
+	const res = await axios.post(`/article/testupload`, form);
+	return res.data.data[0];
+};

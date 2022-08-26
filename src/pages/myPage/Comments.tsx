@@ -14,7 +14,7 @@ const Comments = () => {
 
     const [data,setData] = useState<CommentT[]>([]);
     const [page, setPage] = useState<PageT>();
-    const [curPage, setCurPage] = useState(1); 
+    const [curPage, setCurPage] = useState(0); 
     const [isLoading, setIsLoading] = useState(false);
 
     const getComments = async () => {
@@ -45,17 +45,17 @@ const Comments = () => {
                 {data.length > 0 ? (
                     data.map((com, i) => (
                         <Cmt key={i}>
-                            <Link to={`/${com.artCategory}/${com.repNo}`}>
-                                <li id='cmt'>{com.repContents}</li>
-                                <li id='date'>{com.repCreated.slice(0,8)}</li>
+                            <Link to={`/${com.artCategory}/${com.repNo}`} id='cmt'>
+                                <li>{com.repContents}</li>
                             </Link>
+                            <li id='date'>{com.repCreated.slice(0,8)}</li>
                         </Cmt>
                     ))
                 ) : (
                     <i.NoData>작성된 댓글이 없습니다.</i.NoData>
                 )}
                 {data.length > 0 && (
-                    <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+                    <Pagination curPage={curPage+1} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
                 )}
                 </>
             )}
@@ -72,6 +72,7 @@ const Cmt = styled.ul`
     padding: 0.9em;
     border-bottom: 1px solid lightgray;
     #cmt {
+        color: black;
         flex-basis: 80%;
         padding-left: 1em;
     }
@@ -83,7 +84,7 @@ const Cmt = styled.ul`
         align-items: center;
         justify-content: center;
     }
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 767px){
         font-size: 0.9rem;
     };
     @media screen and (max-width: 480px){

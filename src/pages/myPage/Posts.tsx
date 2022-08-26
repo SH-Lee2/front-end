@@ -14,7 +14,7 @@ const Posts = () => {
 
     const [data,setData] = useState<Post[]>([]);
     const [page, setPage] = useState<PageT>({});
-    const [curPage, setCurPage] = useState(1);
+    const [curPage, setCurPage] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
     const getPosts = async () => {
@@ -45,21 +45,25 @@ const Posts = () => {
                 {data.length > 0  ? (
                     data?.map((art, i) => (                    
                         <Article key={i}>
-                            <Link to={`/${art.artCategory}/${art.artNo}`}>
-                                <img src={process.env.PUBLIC_URL + '/test.jpg'} alt='test' />{/* 임시 */}
-                                <li id='sub'>
-                                    <span id='title' >{art.artSubject}</span>
+                            <Link to={`/${art.artCategory}/${art.artNo}`} id='subject'>
+                                <Thumnail>
+                                    <div id='ThumImage'>
+                                        <img src={process.env.PUBLIC_URL + '/test.jpg'} alt='test' />
+                                    </div>
+                                </Thumnail>
+                                <Title>
+                                    <span id='sub'>{art.artSubject}</span>
                                     <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
-                                </li>
-                                <li id='date'>{art.artCreated.slice(0,8)}</li>
+                                </Title>
                             </Link>
+                            <Date>{art.artCreated.slice(0,8)}</Date>
                         </Article>
                     ))
                 ) : (
                     <i.NoData>작성된 글이 없습니다.</i.NoData>
                 )}
                 {data.length > 0  && (
-                    <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+                    <Pagination curPage={curPage+1} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
                 )}
                 </>
             )}            
@@ -69,55 +73,80 @@ const Posts = () => {
 
 export default Posts;
 
-const Article = styled.ul`
+const Article = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-    padding: 0.9em;
     border-bottom: 1px solid lightgray;
-    img {
-        width: 5.2em;
-        @media screen and (max-width: 480px){
-        width: 3.5em;
-        };
+    padding: 1em 0;
+    #subject {
+        display: flex;
+        flex-direction: row;
+        width: 80%;
     }
+    
+`; 
+
+const Thumnail = styled.div`
+    width: 20%;
+    #ThumImage {
+        position: relative;
+        overflow: hidden;
+        padding-top: 100%;
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            max-width: 100%;
+            height: auto;
+        }
+    }
+`;
+
+const Title = styled.div`
+    width: 76%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-left: 1em;
     span {
-        margin: 0.3em;
-        @media screen and (max-width: 480px){
-            margin: 0.2em;
-        };
+        padding: 0.5em 0 0.5em 0;
     }
     #sub {
-        flex-basis: 70%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-left: 1.5em;
+        color: black;
+        font-size: 1.1rem;
+        @media screen and (max-width: 767px){
+            font-size: 1rem;
+        };
         @media screen and (max-width: 480px){
-            padding-left: 0.7em;
+            font-size: 0.9rem;
         };
     }
     #dist {
         color: gray;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
+        @media screen and (max-width: 767px){
+            font-size: 0.8rem;
+        };
         @media screen and (max-width: 480px){
-            font-size: 0.65rem;
+            font-size: 0.7rem;
         };
     }
-    #date {
-        flex-basis: 20%;
-        color: #999999;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    @media screen and (max-width: 768px){
+`;
+
+const Date = styled.div`
+    color: gray;
+    width: 24%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    @media screen and (max-width: 767px){
         font-size: 0.9rem;
     };
     @media screen and (max-width: 480px){
         font-size: 0.8rem;
-        padding: 0.7em;
-        height: 5em;
     };
 `;

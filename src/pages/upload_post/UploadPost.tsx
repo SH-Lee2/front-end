@@ -9,20 +9,28 @@ import { WrapperTag } from "../../components/CateHeader";
 import SelectWeather from "../../components/select_weather/SelectWeather";
 import authStore from "../../store/authStore";
 import { postUpload } from "../../services/post";
-import {escape, unescape}from "html-escaper"
+import { escape } from "html-escaper";
+import { Post } from "../../types/types";
 interface State {
 	category: string;
 	categoryNum: number;
+	post: Post;
 }
 
 const UploadPost = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { category, categoryNum } = location.state as State;
+	const { category, categoryNum, post } = location.state as State;
 	const [selectedRegion, setSelectedRegion] = useState<string>("01");
-	const [selectedWeather, setSelectedWeather] = useState<number>(0);
-	const [enteredTitle, setEnteredTitle] = useState<string>("");
+
+	const [selectedWeather, setSelectedWeather] = useState<number>(
+		post?.artWSelect > -1 ? post?.artWSelect : 0
+	);
+	const [enteredTitle, setEnteredTitle] = useState<string>(
+		post?.artSubject ? post?.artSubject : ""
+	);
 	const [enteredWrite, setEnteredWrite] = useState<string>("");
+	const [uploadImg, setUploadImg] = useState<string[]>([]);
 	const { userProfile } = authStore();
 
 	const getRegionNumberHandler = (region: string) => {
@@ -36,6 +44,10 @@ const UploadPost = () => {
 	};
 	const getHtmlHandler = (html: string) => {
 		setEnteredWrite(html);
+	};
+
+	const getImageArr = (image: string) => {
+		setUploadImg((pre) => [...pre, image]);
 	};
 
 	const submitHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -52,15 +64,15 @@ const UploadPost = () => {
 			cancelButtonColor: "red",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
-				const res = await postUpload({
+				await postUpload({
 					selectedRegion,
 					selectedWeather,
 					categoryNum,
 					enteredTitle,
-					enteredWrite : escape(enteredWrite),
+					enteredWrite: escape(enteredWrite),
 					useNo: userProfile.no,
+					uploadImg,
 				});
-				console.log(res);
 				navigate(-1);
 			} else {
 				Swal.close();
@@ -72,7 +84,11 @@ const UploadPost = () => {
 		<ContainerTag>
 			<WrapperTag>
 				<PageHeaderTag>
-					<h2>카테고리 - {category}</h2>
+					{post ? (
+						<h2>게시물 수정</h2>
+					) : (
+						<h2>카테고리 - {category}</h2>
+					)}
 				</PageHeaderTag>
 				<SelectRezion onGetRegionNumber={getRegionNumberHandler} />
 				<FormTag onSubmit={submitHandler}>
@@ -80,7 +96,10 @@ const UploadPost = () => {
 						<div>
 							<p>날씨</p>
 						</div>
-						<SelectWeather onGetWeather={getWeatherHandler} selectedWeather={selectedWeather}/>
+						<SelectWeather
+							onGetWeather={getWeatherHandler}
+							selectedWeather={selectedWeather}
+						/>
 					</InputWrapperTag>
 					<InputWrapperTag>
 						<label htmlFor="title">제목</label>
@@ -89,15 +108,22 @@ const UploadPost = () => {
 							id="title"
 							placeholder="제목을 입력해주세요."
 							onChange={changeTitleHandler}
+							value={enteredTitle}
 							required
 						/>
 					</InputWrapperTag>
-					<WritePost onGetHtml={getHtmlHandler} />
+					<WritePost
+						onGetHtml={getHtmlHandler}
+						onGetImageArr={getImageArr}
+						post={post}
+					/>
 					<ButtonWrapperTag>
 						<button type="button" onClick={() => navigate(-1)}>
 							취소
 						</button>
-						<button type="submit" disabled={!enteredTitle}>저장</button>
+						<button type="submit" disabled={!enteredTitle}>
+							{post ? "수정" : "저장"}
+						</button>
 					</ButtonWrapperTag>
 				</FormTag>
 			</WrapperTag>
@@ -171,7 +197,7 @@ const ButtonWrapperTag = styled.div`
 		background-color: skyblue;
 		width: 100%;
 		cursor: pointer;
-		:disabled{
+		:disabled {
 			background-color: gray;
 		}
 	}

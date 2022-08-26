@@ -18,8 +18,9 @@ const PostContent = ({ post, region }: Props) => {
 	const navigate = useNavigate()
 	const deleteHandler = async () => {};
 
+	// 수정 페이지
 	const goToEdit = async() => {
-		navigate("/")
+		navigate("/upload_post", {state : {post : post}})
 	}
 	return (
 		<ArticleTag>

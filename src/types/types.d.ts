@@ -52,4 +52,5 @@ export interface UserT {
     usePw: string,
     useName: string,
     useEmail: string,
+    useRole :string,
 }

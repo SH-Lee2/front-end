@@ -10,7 +10,6 @@ import { Post } from '../../types/types';
 const Clothes = () => {
   const [daily, setDaily] = useState<Post[]>([]);
   const [free, setFree] = useState<Post[]>([]);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const getDaily = async () => {
@@ -40,48 +39,40 @@ const Clothes = () => {
       ) : (
         <>
         <Line>
-          <span id='sub'>
-            <Link to='../dailylook' id='black'>데일리룩</Link>
-          </span>
-          <span id='more'>
-            <Link to='../dailylook' id='black'>더보기<AiOutlineCaretRight /></Link>
-          </span>
+          <Link to='../dailylook' id='sub'>데일리룩</Link>
+          <Link to='../dailylook' id='more'>더보기<AiOutlineCaretRight /></Link>
         </Line>
 
         <c.Imgs>
           {daily && (
             daily.map((art, i) => (
-              <Card key={i}>
+              <DailyCard key={i}>
                 <Link to={`/today_clothes/main/${art.artNo}`}>
                   <c.Thumnail>
                     <c.Img src='/test.jpg' alt='test1' />{/* 임시 */}
                   </c.Thumnail>
                   <span id='color'>{art.regAddr1} {art.regAddr2}</span>
                 </Link>
-              </Card>
+              </DailyCard>
             ))
           )}
         </c.Imgs>
 
         <Line>        
-        <span id='sub'>
-            <Link to='../free' id='black'>오늘 뭐 입지?</Link>
-          </span>
-          <span id='more'>
-            <Link to='../free' id='black'>더보기<AiOutlineCaretRight /></Link>
-          </span>
-
+          <Link to='../free' id='sub'>오늘 뭐 입지?</Link>
+          <Link to='../free' id='more'>더보기<AiOutlineCaretRight /></Link>
         </Line>
-          {free && (
-            free.map((art, i) => (
-              <Article key={i}>
-                <Link to={`/today_clothes/free/${art.artNo}`}>
-                  <span id='title'>{art.artSubject}</span>
-                  <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
-                </Link>
+
+        {free && (
+          free.map((art, i) => (
+            <Link to={`/today_clothes/free/${art.artNo}`} key={i}>
+              <Article>
+                <span id='title'>{art.artSubject}</span>
+                <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
               </Article>
-            ))
-          )}
+            </Link>
+          ))
+        )}
         </>
       )}      
     </c.Container>
@@ -93,13 +84,13 @@ export default Clothes
 const Line = styled.div`
   padding: 0.8em;
   display: flex;
-  margin-top: 3em;
+  justify-content: space-between;
+  margin: 3em 0 1em 0;
   #sub {
-    width: 60%;
     font-size: 1.5rem;
     font-weight: 500;
-    margin-right: auto;
-    @media screen and (max-width: 768px) {
+    color: black;
+    @media screen and (max-width: 767px) {
       font-size: 1.3rem;
     };
     @media screen and (max-width: 480px) {
@@ -107,71 +98,53 @@ const Line = styled.div`
     };
   }
   #more {
-    width: 30%;
-    margin-left: auto;
-    font-size: 0.9rem;
-    display: flex;
-    justify-content: end;
-    align-items: flex-end;
+    color: black;
     @media screen and (max-width: 480px) {
       font-size: 0.8rem;
     };
   }
-  #black {
-    color: black;
-  }
+  @media screen and (max-width: 767px) {
+    margin: 1em 0;
+  };
 `;
 
-const Card = styled.div`
-  flex-basis: 22%;
-  margin-bottom: 0.5em;
-  color: gray;
-  @media screen and (max-width: 768px) {
-    font-size: 0.9rem;
+export const DailyCard = styled(c.CardBasic)`
+  #color {
+    color: gray;
+  }
+  @media screen and (max-width: 767px) {
+    padding: 0 0.4em 0.7em 0.4em;
+    flex-basis: 50%;
   };
   @media screen and (max-width: 480px) {
-    flex-basis: 46%;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   };
 `;
 
 const Article = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   padding: 0.8em 0.5em;
   border-bottom: 1px solid lightgray;
   #title {
-    width: 75%;
     font-size: 1.1rem;
-    @media screen and (max-width: 523px) {
-      width: 72%;
-    };
+    color: black;
     @media screen and (max-width: 480px) {
       font-size: 1rem;
-      flex-direction: column;
-      width: 100%;
-      margin-bottom: 0.4em;
     };
   }
   #dist {
-    width: 25%;
     color: gray;
-    text-align: right;
-    @media screen and (max-width: 523px) {
-      width: 28%;
+    @media screen and (max-width: 1023px) {
+      font-size: 0.9rem;
     };
     @media screen and (max-width: 480px) {
-      width: 100%;
-      text-align: left;
       font-size: 0.8rem;
     };
   }
-  @media screen and (max-width: 768px) {
-    font-size: 0.9rem;
-    padding: 0.5em;
-  };
-  @media screen and (max-width: 480px) {
-    flex-direction: column;
-    padding: 0.4em 0;
-  };
+  :hover {
+    transform: scale(1.02);
+    transition: 0.4s;
+    box-shadow: 0 12px 16px hsla(228, 66%, 45%, 0.1);
+  }
 `;

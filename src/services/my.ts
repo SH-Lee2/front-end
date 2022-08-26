@@ -30,14 +30,14 @@ export const myUpdate = (userProfile :User, useNick :string, usePw :string, useE
 }
 
 export const myComments = (useNo :number, curPage :number) => {
-    return axios.get(`/article/reply/${useNo}`, {
-        params: {page: (curPage-1)} 
+    return axios.get(`/article/myReply/${useNo}`, {
+        params: {page: curPage} 
     })
 }
 
 export const myPosts = (useNo :number, curPage :number) => {
-    return axios.get(`/article/list/${useNo}`, {
-        params: {page: (curPage-1)} 
+    return axios.get(`/article/myList/${useNo}`, {
+        params: {page: curPage} 
     })
 }
 

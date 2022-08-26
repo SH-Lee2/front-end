@@ -14,24 +14,29 @@ import "tui-editor-plugin-font-size/dist/tui-editor-plugin-font-size.css";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import styled from "styled-components";
 
+import { uploadImage } from "../../services/post";
+import { unescape } from "html-escaper";
+import { Post } from "../../types/types";
+
 interface Props {
 	onGetHtml: (html: string) => void;
+	onGetImageArr: (image: string) => void;
+	post: Post;
 }
 
-const WritePost = ({ onGetHtml }: Props) => {
+const WritePost = ({ onGetHtml, onGetImageArr, post }: Props) => {
 	const editRef = useRef<Editor>(null);
 	const onChangeHandler = () => {
 		onGetHtml(editRef.current?.getInstance().getHTML());
 	};
 
 	const onUploadImage = async (blob: any, callback: any) => {
-		console.log(blob);
-		// 사진 업로드 후에 압푹된 url 를 받아온다.
-		// const url = await
-		// callback(url, 이미지 alt )
+		const url = await uploadImage(blob);
+		onGetImageArr(url);
+		callback(url, "");
 	};
 
-	const plugins = [colorSyntax,fontSize];
+	const plugins = [colorSyntax, fontSize];
 	// code , codeblock, table 제외 , link 는 wysiwyg에서 에러 보류
 	const toolbarItems = [
 		["heading", "bold", "italic", "strike"],
@@ -44,7 +49,9 @@ const WritePost = ({ onGetHtml }: Props) => {
 			<Editor
 				ref={editRef}
 				placeholder="내용을 입력해주세요."
-				initialValue=" "
+				initialValue={
+					post?.artContents ? unescape(post?.artContents) : " "
+				}
 				previewStyle="vertical"
 				height="400px"
 				initialEditType="wysiwyg"
@@ -52,9 +59,9 @@ const WritePost = ({ onGetHtml }: Props) => {
 				onChange={onChangeHandler}
 				plugins={plugins}
 				toolbarItems={toolbarItems}
-				// hooks={{
-				// 	addImageBlobHook: onUploadImage,
-				// }}
+				hooks={{
+					addImageBlobHook: onUploadImage,
+				}}
 			/>
 		</EditorWrapperTag>
 	);
@@ -73,7 +80,7 @@ const EditorWrapperTag = styled.div`
 			height: fit-content;
 		}
 		// 모바일 화면 대응
-		.toastui-editor-popup{
+		.toastui-editor-popup {
 			transform: translateX(53%);
 		}
 	}

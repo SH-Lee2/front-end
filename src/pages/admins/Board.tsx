@@ -1,43 +1,40 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import Pagination from '../../components/Pagination';
+import { AllList, CateList } from '../../services/admins';
 import * as a from '../../styles/Admin';
 import * as i from '../../styles/mypage/TabInner';
-import { PageT } from '../../types/types';
-
-interface Article {
-    artNo: number,
-    artSubject: string,
-    useNick: string,
-    regAddr1: string,
-    regAddr2: string,
-    artCreated: string
-}
+import { PageT, Post } from '../../types/types';
 
 const Board = () => {
-    const [article, setArticle] = useState<Article[]>([]);
+    const [article, setArticle] = useState<Post[]>([]);
     const [selected,setSelected] = useState ('4');
 
     const [page, setPage] = useState<PageT>({});
-    const [curPage, setCurPage] = useState(1);
+    const [curPage, setCurPage] = useState(0);
 
     const cks :number[] = [];
 
+    const getAll = async () => {
+        const res = await AllList(curPage)
+        setArticle(res.data.data.list);
+        setPage(res.data.data.pageable);
+    }
+
+    const getCategory = async () => {
+        const res = await CateList(selected, curPage)
+        setArticle(res.data.data.list)
+        setPage(res.data.data.pageable)
+    }
+
     useEffect(() => {
         if (selected === '4') {
-            axios.get('/manager/article', {params: {page: (curPage-1)}} )
-            .then(res => {
-                setArticle(res.data.data.list);
-                setPage(res.data.data.pageable);
-            })
+            getAll()
         } else {
-            axios.get(`/manager/article/${selected}`, {params: {page: (curPage-1)}} )
-            .then(res => {
-                setArticle(res.data.data.list);
-                setPage(res.data.data.pageable);
-            })
+            getCategory()
         }        
     },[selected, curPage])
 
@@ -87,29 +84,27 @@ const Board = () => {
                         <a.CkBtn onClick={()=> del()}>삭제</a.CkBtn>
                     </li>
                 </Col>
-                {
-                    article && (
-                        article.map((post,i) => (
-                            <Cnt key={i}>
-                                <li id='head2'>
-                                    <span>{post.artSubject}</span>
+                {article && (
+                    article.map((post,i) => (
+                        <Cnt key={i}>
+                            <Link to={`/${post.artCategory}/${post.artNo}`} id='head2'>
+                                <li id='subject'> 
+                                    <span id='sub'>{post.artSubject}</span>
                                     <span id='dist'>{post.regAddr1} {post.regAddr2}</span>
                                 </li>
+                            </Link>
                                 <li>{post.useNick}</li>
                                 <li id='date'>{post.artCreated.slice(0,8)}</li>
                                 <li id='ck'>
                                     <input type='checkbox' onChange={(e)=>{checks(e.target.checked, post.artNo)}}/>
                                 </li>
-                            </Cnt>
-                        ))
-                    )
-                }
+                        </Cnt>
+                    ))
+                )}
             </ArtList>
-            {
-                article && (
-                    <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
-                )
-            }
+            {article && (
+                <Pagination curPage={curPage+1} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+            )}
         </i.Outline>
     );
 };
@@ -150,18 +145,29 @@ const Col = styled.ul`
 const Cnt = styled.ul`
     border-bottom: 1px solid lightgray;
     #head2 {
+        width: 60%;
+    }
+    #subject {
+        width: 100%;
         display: flex;
         flex-direction: column;
-        width: 60%;
         text-align: left;
+        margin-left: 1em;
+    }
+    #sub {
+        color: black;
+        font-size: 1.1rem;
+        padding: 0.5em 0;
+        @media screen and (max-width: 767px){
+            font-size: 1rem;
+        };
+        @media screen and (max-width: 480px){
+            font-size: 0.9rem;
+        };
     }
     #dist {
         color: gray;
-        font-size: 0.8rem;
-        margin-top: 0.4em;
-        @media screen and (max-width: 480px){
-            font-size: 0.6rem;
-        };
+        font-size: 0.9rem;
     }
     #date {
         @media screen and (max-width: 480px){
