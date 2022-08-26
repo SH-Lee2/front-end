@@ -31,6 +31,7 @@ export interface CommentT {
     repCreated: string;
     repNo: number;
     useNick: string;
+    artCategory: number;
 }
 
 export interface Region {
@@ -42,4 +43,13 @@ export interface Region {
 export interface ImageArr {
 	imgOrigin: string;
 	imgPath: string;
+}
+
+export interface UserT {
+    useNo: number,
+    useNick: string,
+    useId: string,
+    usePw: string,
+    useName: string,
+    useEmail: string,
 }

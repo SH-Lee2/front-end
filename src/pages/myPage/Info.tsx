@@ -3,25 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Swal from 'sweetalert2';
+import { myEmail, myInfo, myNick, myUpdate } from '../../services/my';
 import authStore, { User } from '../../store/authStore';
 import * as i from '../../styles/mypage/TabInner';
-
-interface InfoT {
-    useNo: number,
-    useNick: string,
-    useId: string,
-    usePw: string,
-    useName: string,
-    useEmail: string,
-}
+import { UserT } from '../../types/types';
 
 const Info = () => {
     const { userProfile } = authStore();
 
     const navigate = useNavigate();
 
-    const [data, setData] = useState<InfoT>();
+    const [data, setData] = useState<UserT>();
 
+    // 입력값
     const [useNick,setNick] = useState('');
     const [usePw,setPw] = useState('');
     const [usePwCk,setPwCk] = useState('');
@@ -33,12 +27,15 @@ const Info = () => {
     const [pwCkMsg,setPwCkMsg] = useState('');
     const [emailMsg,setEmailMsg] = useState('');
 
+    // 유저 정보 조회
+    const getInfo = async () => {
+        const res = await myInfo(userProfile.no)
+        setData(res.data.data);
+    }
+
     useEffect(() => {
-        axios.get(`/user/${userProfile?.no}`)
-        .then(res => {
-            setData(res.data.data);
-        })
-    }, [userProfile?.no])
+        getInfo()
+    }, [userProfile.no])
 
     //syncro
     useEffect(() => { changeNick() }, [useNick])
@@ -47,17 +44,15 @@ const Info = () => {
     useEffect(() => { changeEmail() }, [useEmail])
 
     //변경함수
-    const changeNick = () => {
-        axios.get(`/user/Nickname/${useNick}`)
-        .then(res => {
-            if (res.data.data === true && useNick.length <= 6) {
-                setNickMsg('중복된 닉네임입니다');
-            } else if (useNick.length > 6){
-                setNickMsg('닉네임은 6자 이하로 가능합니다');
-            } else{
-                setNickMsg('');
-            }
-        })
+    const changeNick = async () => {
+        const res = await myNick(useNick)
+        if (res.data.data === true && useNick.length <= 6) {
+            setNickMsg('중복된 닉네임입니다');
+        } else if (useNick.length > 6){
+            setNickMsg('닉네임은 6자 이하로 가능합니다');
+        } else{
+            setNickMsg('');
+        }
     }
 
     const changePw = () => {
@@ -78,46 +73,36 @@ const Info = () => {
         }
     }
 
-    const changeEmail = () => {
+    const changeEmail = async () => {
         const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
-
         if (useEmail.length !== 0 && !emailRegEx.test(useEmail)) {
             setEmailMsg('올바른 이메일 형식이 아닙니다')
         } else {
-            axios.get(`/user/Email/${useEmail}`)
-            .then(res => {
-                if (res.data.data === true) {
-                    setEmailMsg('중복된 닉네임입니다.');
-                } else{
-                    setEmailMsg('');
-                }
-            })
+            const res = await myEmail(useEmail)
+            if (res.data.data === true) {
+                setEmailMsg('중복된 닉네임입니다.');
+            } else{
+                setEmailMsg('');
+            }
         }
     }
 
-    const updateInfo = (userProfile : User|null) => {
-        axios.put('/user',{
-            useNo : userProfile?.no,
-            useNick : useNick,
-            usePw : usePw,
-            useEmail : useEmail
-        })
-        .then(res => {
-            if (res.data.data === 1) {
-                Swal.fire({
-                    icon: 'success',
-                    text: '수정 완료!',
-                    showConfirmButton: false,
-                    timer: 1000
-                })
-                .then(() => { navigate('/'); }) //메인페이지 이동
-            }else {
-                Swal.fire({
-                    icon: 'error',
-                    text: '오류가 발생했습니다. 관리자에게 문의 바랍니다.'
-                })
-            }
-        });
+    const updateInfo = async (userProfile : User|null) => {
+        const res = await myUpdate(userProfile, useNick, usePw, useEmail)
+        if (res.data.data === 1) {
+            Swal.fire({
+                icon: 'success',
+                text: '수정 완료!',
+                showConfirmButton: false,
+                timer: 1000
+            })
+            .then(() => { navigate('/'); }) //메인페이지 이동
+        }else {
+            Swal.fire({
+                icon: 'error',
+                text: '오류가 발생했습니다. 관리자에게 문의 바랍니다.'
+            })
+        }
     }
 
     const allCk = () => {

@@ -47,9 +47,14 @@ export const Btn = styled.button`
     padding: 0.4em 1.5em;
     margin: 2em;
     border-radius: 5px;
-    border: 1px solid skyblue;
+    border: none;
     &:hover {
         cursor: pointer;
+    }
+    &:disabled {
+        background-color: gray;
+        cursor: revert;
+        transform: revert;
     }
     @media screen and (max-width: 480px){
         padding: 0.3em 1.2em;
@@ -64,4 +69,11 @@ export const InputOne = styled(Val)`
         width: 70%;
         font-size: 0.9rem;
     };
+`;
+
+// for MyPage Posts, Comments
+export const NoData = styled.span`
+    width: 80%;
+    text-align: center;
+    padding: 4em;
 `;

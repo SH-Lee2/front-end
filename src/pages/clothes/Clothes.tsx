@@ -1,9 +1,9 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineCaretRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
-import FreePosts from '../../components/free_posts/FreePosts';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { mainDaily, mainFree } from '../../services/category';
 import * as c from '../../styles/Category';
 import { Post } from '../../types/types';
 
@@ -11,53 +11,79 @@ const Clothes = () => {
   const [daily, setDaily] = useState<Post[]>([]);
   const [free, setFree] = useState<Post[]>([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getDaily = async () => {
+    setIsLoading(true)
+    const res = await mainDaily()
+    setDaily(res.data.data.list)
+    setIsLoading(false)
+  }
+
+  const getFree = async () => {
+    setIsLoading(true)
+    const res = await mainFree()
+    setFree(res.data.data.list)
+    setIsLoading(false)
+  }
+
   useEffect(() => {
-    axios.get('/article/category/0')
-    .then(res => {
-      setDaily(res.data.data.list)
-    })
-    axios.get('/article/category/1', {params: {size: 5}})
-    .then(res => {
-      setFree(res.data.data.list)
-    })
+    getDaily()
+    getFree()
   }, [])
   
   return (
     <c.Container>
       <c.Title>오늘의 옷</c.Title>
-      <Line>
-        <span id='sub'>
-          <Link to='../dailylook' id='black'>데일리룩</Link>
-        </span>
-        <span id='more'>
-          <Link to='../dailylook' id='black'>더보기<AiOutlineCaretRight /></Link>
-        </span>
-      </Line>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+        <Line>
+          <span id='sub'>
+            <Link to='../dailylook' id='black'>데일리룩</Link>
+          </span>
+          <span id='more'>
+            <Link to='../dailylook' id='black'>더보기<AiOutlineCaretRight /></Link>
+          </span>
+        </Line>
 
-      <c.Imgs>
-        {
-          daily && (
+        <c.Imgs>
+          {daily && (
             daily.map((art, i) => (
               <Card key={i}>
                 <Link to={`/today_clothes/main/${art.artNo}`}>
-                  <c.Img src='/test.jpg' alt='test1' />{/* 임시 */}
-                  <span>{art.regAddr1} {art.regAddr2}</span>
+                  <c.Thumnail>
+                    <c.Img src='/test.jpg' alt='test1' />{/* 임시 */}
+                  </c.Thumnail>
+                  <span id='color'>{art.regAddr1} {art.regAddr2}</span>
                 </Link>
               </Card>
             ))
-          )
-        }
-      </c.Imgs>
+          )}
+        </c.Imgs>
 
-      <Line>        
-      <span id='sub'>
-          <Link to='../free' id='black'>오늘 뭐 입지?</Link>
-        </span>
-        <span id='more'>
-          <Link to='../free' id='black'>더보기<AiOutlineCaretRight /></Link>
-        </span>
-      </Line>
-      <FreePosts posts={free} path="/today_clothes/free" />
+        <Line>        
+        <span id='sub'>
+            <Link to='../free' id='black'>오늘 뭐 입지?</Link>
+          </span>
+          <span id='more'>
+            <Link to='../free' id='black'>더보기<AiOutlineCaretRight /></Link>
+          </span>
+
+        </Line>
+          {free && (
+            free.map((art, i) => (
+              <Article key={i}>
+                <Link to={`/today_clothes/free/${art.artNo}`}>
+                  <span id='title'>{art.artSubject}</span>
+                  <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
+                </Link>
+              </Article>
+            ))
+          )}
+        </>
+      )}      
     </c.Container>
   )
 }
@@ -112,7 +138,7 @@ const Card = styled.div`
 const Article = styled.div`
   display: flex;
   align-items: center;
-  padding: 0.6em 0.5em;
+  padding: 0.8em 0.5em;
   border-bottom: 1px solid lightgray;
   #title {
     width: 75%;

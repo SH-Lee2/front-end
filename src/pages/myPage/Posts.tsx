@@ -1,7 +1,9 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import Pagination from '../../components/Pagination';
+import { myPosts } from '../../services/my';
 import authStore from '../../store/authStore';
 import Col from '../../styles/mypage/MyList';
 import * as i from '../../styles/mypage/TabInner';
@@ -10,40 +12,57 @@ import { PageT, Post } from '../../types/types';
 const Posts = () => {
     const { userProfile } = authStore()
 
-    const [data,setData] = useState<Post[]>();
+    const [data,setData] = useState<Post[]>([]);
     const [page, setPage] = useState<PageT>({});
-    const [curPage, setCurPage] = useState(1); 
+    const [curPage, setCurPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const getPosts = async () => {
+        setIsLoading(true)
+        const res = await myPosts(userProfile.no, curPage)
+        setData(res.data.data.list)
+        setPage(res.data.data.pageable)
+        setIsLoading(false)
+    }
 
     useEffect(() => {
-        axios.get(`/article/list/${userProfile?.no}`, {params: {page: (curPage-1)}} )
-        .then(res => {
-            setData(res.data.data.list)
-            setPage(res.data.data.pageable)
-        })
+        getPosts()
     },[curPage])
 
     return (
         <i.Outline>
             <i.TabTitle>작성글 목록</i.TabTitle>
-            <Col>
-                <li id='content'>글 제목</li>
-                <li id='day'>날짜</li>
-            </Col>
-            {data && (
-                data?.map((art, i) => (
-                    <Article key={i}>
-                        <img src={process.env.PUBLIC_URL + '/test.jpg'} alt='test' />{/* 임시 */}
-                        <li id='sub'>
-                            <span id='title' >{art.artSubject}</span>
-                            <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
-                        </li>
-                        <li id='date'>{art.artCreated.slice(0,8)}</li>
-                    </Article>
-                ))
-            )}
-            {data && (
-                <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
-            )}
+            {isLoading ? (
+                <LoadingSpinner />
+            ) : (
+                <>
+                {data.length > 0 && (
+                    <Col>
+                        <li id='content'>글 제목</li>
+                        <li id='day'>날짜</li>
+                    </Col>
+                )}
+                {data.length > 0  ? (
+                    data?.map((art, i) => (                    
+                        <Article key={i}>
+                            <Link to={`/${art.artCategory}/${art.artNo}`}>
+                                <img src={process.env.PUBLIC_URL + '/test.jpg'} alt='test' />{/* 임시 */}
+                                <li id='sub'>
+                                    <span id='title' >{art.artSubject}</span>
+                                    <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
+                                </li>
+                                <li id='date'>{art.artCreated.slice(0,8)}</li>
+                            </Link>
+                        </Article>
+                    ))
+                ) : (
+                    <i.NoData>작성된 글이 없습니다.</i.NoData>
+                )}
+                {data.length > 0  && (
+                    <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+                )}
+                </>
+            )}            
         </i.Outline>
     );
 };

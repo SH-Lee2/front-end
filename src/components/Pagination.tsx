@@ -53,6 +53,10 @@ const Nav = styled.nav`
     align-items: center;
     gap: 4px;
     margin: 16px;
+    padding-top: 2em;
+    @media screen and (max-width: 1024px){
+        padding-top: 1.5em;
+    };
 `;
 
 // 기본

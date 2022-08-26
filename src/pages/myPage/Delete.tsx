@@ -1,8 +1,8 @@
-import axios from 'axios';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
+import { myDelete } from '../../services/my';
 import authStore from '../../store/authStore';
 import * as i from '../../styles/mypage/TabInner';
 
@@ -11,27 +11,25 @@ const Delete = () => {
 
     const navigate = useNavigate()
 
-    const userDel = () => {
-        axios.delete(`../user/${userProfile?.no}`)
-        .then(res => {
-            if (res.data.status === 200) {
-                Swal.fire({
-                    icon: 'success',
-                    text: '탈퇴 완료',
-                    showConfirmButton: false,
-                    timer: 1000
-                })
-                .then(() => {
-                    removeUser();
-                    navigate('/');
-                }) //메인페이지 이동
-            }else {
-                Swal.fire({
-                    icon: 'error',
-                    text: '오류가 발생했습니다. 관리자에게 문의 바랍니다.'
-                })
-            }
-        })
+    const userDel = async () => {
+        const res = await myDelete(userProfile.no)
+        if (res.data.status === 200) {
+            Swal.fire({
+                icon: 'success',
+                text: '탈퇴 완료',
+                showConfirmButton: false,
+                timer: 1000
+            })
+            .then(() => {
+                removeUser();
+                navigate('/');
+            }) //메인페이지 이동
+        }else {
+            Swal.fire({
+                icon: 'error',
+                text: '오류가 발생했습니다. 관리자에게 문의 바랍니다.'
+            })
+        }
     }
 
     return (

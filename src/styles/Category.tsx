@@ -50,12 +50,13 @@ export const Filter = styled.div`
 export const Imgs = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 `;
 
 export const Card = styled.div`
-    flex-basis: 23%;
-    margin-bottom: 0.8em;
+    flex-basis: 25%;
+    margin-bottom: 1.5em;
+    padding: 0 0.4em 0.7em 0.4em;
+    border-radius: 10px;
     p {
         margin-bottom: 0.5em;
     }
@@ -63,24 +64,41 @@ export const Card = styled.div`
         color: gray;
         font-size: 0.9rem;
     }
-    @media screen and (max-width: 768px) {
-        font-size: 0.9rem;
+    #color {
+        color: black;
+    }
+    :hover {
+        transform: scale(1.02);
+        transition: 0.4s;
+        box-shadow: 0 12px 16px hsla(228, 66%, 45%, 0.1);
+    }    
+    @media screen and (max-width: 1023px) {
+        flex-basis: 50%;
+        padding: 0 1.3em 0.7em 1.3em;
     };
-    @media screen and (max-width: 480px) {
-        flex-basis: 47%;
+    @media screen and (max-width: 767px) {
         font-size: 0.8rem;
+        padding: 0 0.4em 0.7em 0.4em;
         #dis {
             font-size: 0.7rem;
         }
     };
 `;
 
-export const Img = styled.img`
-    max-width: 100%;
-    height: auto;
+export const Thumnail = styled.div`
+    position: relative;
+    overflow: hidden;
+    padding-top: 75%;
     margin-bottom: 0.7em;
     border-radius: 10px;
-    @media screen and (max-width: 480px) {
-        margin-bottom: 0.5em;
-    };
+`;
+
+export const Img = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100%;
+    height: auto;    
 `;
