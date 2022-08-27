@@ -13,7 +13,7 @@ const Users = () => {
     const [selected,setSelected] = useState ('0');
 
     const [page, setPage] = useState<PageT>({});
-    const [curPage, setCurPage] = useState(0);
+    const [curPage, setCurPage] = useState(1);
     
     const dels :number[] = [];
     const admins :number[] = [];
@@ -34,6 +34,7 @@ const Users = () => {
 
     const typeChange = (type :string) => {
         setSelected(type)
+        setCurPage(1)
     }
     
     const delCk = (ck: boolean, no: number) => { //회원 선택
@@ -131,7 +132,7 @@ const Users = () => {
                 )}
             </UserList>
             { data && (
-                <Pagination curPage={curPage+1} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+                <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
             )}
         </i.Outline>
     );

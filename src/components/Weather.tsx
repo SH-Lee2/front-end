@@ -12,13 +12,11 @@ interface nameT {
 }
 
 const Map = () => {
-    const apiKey = process.env.REACT_APP_WEATHER_API
-
     const [Data,setData] = useState<WeatherT[]>()
     const weathers : string[] = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기도', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
 
     useEffect(() => {
-        axios.get(`https://api.openweathermap.org/data/2.5/group?id=1835847,1838519,1835329,1843561,1841811,1835235,1833747,1842616,1841610,1843125,1845106,1845105,1845789,1845788,1841597,1902028,1846265&appid=${apiKey}&lang=kr&units=metric`)
+        axios.get('/api')
         .then(res => {
             setData(res.data.list)
         })
@@ -44,11 +42,13 @@ const Maps = styled.div`
     margin: 0 auto;
     position: relative;
     text-align: center;
+    border: 1px solid pink;
 `;
 
 const Img = styled.img`
-    width: 80%;
+    width: 100%;
     height: auto;
+    border: 1px solid skyblue;
 `;
 
 const City = styled.span<nameT>`
@@ -61,17 +61,82 @@ const City = styled.span<nameT>`
         if (props.name === 'Seoul') {
             return css`
                 top: 6.5em;
-                left: 5em;
+                left: 2vw;
             `
         }else if (props.name === 'Busan') {
             return css`
                 right: 5em;
                 bottom: 10em;
             `
-        }else if (props.name === 'Jeju-do') {
+        }else if (props.name === 'Daegu') {
             return css`
                 left: 10em;
                 bottom: 2em;
+            `
+        }else if (props.name === 'Incheon') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Gwangju') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Daejeon') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Ulsan') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Sejong') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Gyeonggi-do') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Gangwon-do') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Chungcheongbuk-do') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Chungcheongnam-do') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Jeollabuk-do') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Jeollanam-do') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Gyeongsangbuk-do') {
+            return css`
+                right: 5em;
+                bottom: 10em;
+            `
+        }else if (props.name === 'Gyeongsangnam-do') {
+            return css`
+                right: 5em;
+                bottom: 10em;
             `
         }else {
             return css`

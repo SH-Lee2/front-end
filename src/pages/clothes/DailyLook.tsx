@@ -12,7 +12,7 @@ const DailyLook = () => {
     const [region, setRegion] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState<PageT>({});
-    const [curPage, setCurPage] = useState(0);
+    const [curPage, setCurPage] = useState(1);
 
     const getRegionHandler = (reg :string) => { setRegion(reg) }
 
@@ -52,7 +52,7 @@ const DailyLook = () => {
                     )}
                 </c.Imgs>
                 {data.length > 0 && (
-                    <Pagination curPage={curPage+1} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+                    <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
                 )}
                 </>
             )}

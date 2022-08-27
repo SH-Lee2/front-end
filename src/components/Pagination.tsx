@@ -3,28 +3,24 @@ import styled, { css } from 'styled-components';
 
 interface PropsT {
     setCurPage :React.Dispatch<React.SetStateAction<number>>,
-    curPage :number,
+    curPage :number, //현재페이지 번호
     totalPage :number,
     totalCount :number,
-    size :number,
-    pageCount :number,
+    size :number, //페이지 당 게시물 수
+    pageCount :number, //화면에 나타날 페이지 갯수
 }
 
 interface activeT {
     i :number,
     curPage :number
 }
+const Pagination = ({setCurPage, curPage, totalPage, totalCount, size, pageCount,} :PropsT) => {
+    const [pageGroup,setPageGroup] = useState((Math.ceil((curPage) / pageCount))) //몇번째 페이지그룹
 
-const Pagination = ({setCurPage, curPage, totalPage, totalCount, size, pageCount} :PropsT) => {
-
-    const [pageGroup,setPageGroup] = useState((Math.ceil(curPage / pageCount)))
-    
-    const numPages = Math.ceil(totalCount / size)
-        if (numPages < pageCount) { pageCount = numPages }
-
-    let lastNum = pageGroup + pageCount
+    let lastNum = pageGroup * pageCount
         if (lastNum > totalPage) { lastNum = totalPage }
-    const firstNum = lastNum - (pageCount - 1)
+    let firstNum = lastNum - (pageCount - 1)
+        if (pageCount > lastNum) { firstNum = 1 }
 
     const pagination = () => {
         let arr = []
@@ -91,7 +87,7 @@ const SideBtn = styled(Btn)`
 // 메인
 const PgBtn = styled(Btn)<activeT>`
     ${
-        props => props.i === props.curPage &&
+        props => props.i === (props.curPage) &&
         css`
             background-color: skyblue;
             font-weight: bold;

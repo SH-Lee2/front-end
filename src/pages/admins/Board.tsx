@@ -14,7 +14,7 @@ const Board = () => {
     const [selected,setSelected] = useState ('4');
 
     const [page, setPage] = useState<PageT>({});
-    const [curPage, setCurPage] = useState(0);
+    const [curPage, setCurPage] = useState(1);
 
     const cks :number[] = [];
 
@@ -35,7 +35,7 @@ const Board = () => {
             getAll()
         } else {
             getCategory()
-        }        
+        }
     },[selected, curPage])
 
     const checks = (ck: boolean, no: number) => { //삭제글 선택
@@ -61,6 +61,7 @@ const Board = () => {
 
     const cateChange = (cate :string) => {
         setSelected(cate);
+        setCurPage(1)
     }
 
     return (
@@ -103,7 +104,7 @@ const Board = () => {
                 )}
             </ArtList>
             {article && (
-                <Pagination curPage={curPage+1} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+                <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
             )}
         </i.Outline>
     );

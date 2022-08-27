@@ -14,7 +14,7 @@ const Comments = () => {
 
     const [data,setData] = useState<CommentT[]>([]);
     const [page, setPage] = useState<PageT>();
-    const [curPage, setCurPage] = useState(0); 
+    const [curPage, setCurPage] = useState(1); 
     const [isLoading, setIsLoading] = useState(false);
 
     const getComments = async () => {
@@ -55,7 +55,7 @@ const Comments = () => {
                     <i.NoData>작성된 댓글이 없습니다.</i.NoData>
                 )}
                 {data.length > 0 && (
-                    <Pagination curPage={curPage+1} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
+                    <Pagination curPage={curPage} setCurPage={setCurPage} totalPage={page.totalPages} totalCount={page.totalElements} size={page.size} pageCount={5}/>
                 )}
                 </>
             )}
