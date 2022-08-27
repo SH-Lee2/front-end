@@ -37,9 +37,9 @@ const Free = () => {
 			{isLoading ? (
 				<LoadingSpinner />
 			) : (
-				<FreePosts posts={posts} path="/today_meeting" />
+				<FreePosts posts={posts} path="/today_clothes/free" />
 			)}
-			{page && posts.length !== 0 &&(
+			{page && posts.length !== 0 && !isLoading &&(
 				<Pagination
 					curPage={curPage}
 					setCurPage={setCurPage}

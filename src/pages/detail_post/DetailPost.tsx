@@ -31,7 +31,6 @@ const DetailPost = () => {
 	const [curPage, setCurPage] = useState(1);
 	const location = useLocation();
 	const { artNo } = location.state as CustomizedState;
-	console.log(location)
 	const addCommentHandler = async (text: string) => {
 		const res = await addComment(artNo, userProfile.no, text);
 		const newComment = res.data.data;
@@ -55,7 +54,7 @@ const DetailPost = () => {
 	useEffect(() => {
 		const getCommentList = async () => {
 			setCommentIsLoading(true);
-			const res = await getComments(artNo, curPage - 1);
+			const res = await getComments(artNo, curPage);
 			setPage(res.data.data.pageable);
 			setComments(res.data.data.list);
 			setCommentIsLoading(false);

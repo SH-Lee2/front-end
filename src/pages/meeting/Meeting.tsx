@@ -7,7 +7,7 @@ import { getGategoryPosts } from "../../services/post";
 import FreePosts from "../../components/free_posts/FreePosts";
 import LoadingSpinner from "../../components/LoadingSpinner";
 const Meeting = () => {
-	const [region, setRegion] = useState<string>("01");
+	const [region, setRegion] = useState<string>("");
 	const [page, setPage] = useState<PageT>({});
 	const [curPage, setCurPage] = useState(1);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -28,7 +28,7 @@ const Meeting = () => {
 	return (
 		<ContainerTag>
 			<CateHeader
-				categoryNum={0}
+				categoryNum={3}
 				category="오늘의 모임"
 				onGetRegionNumber={getRegionHandler}
 			/>
@@ -38,7 +38,7 @@ const Meeting = () => {
 				<FreePosts posts={posts} path="/today_meeting" />
 			)}
 
-			{page && posts.length !== 0 && (
+			{page && posts.length !== 0 && !isLoading &&(
 				<Pagination
 					curPage={curPage}
 					setCurPage={setCurPage}
