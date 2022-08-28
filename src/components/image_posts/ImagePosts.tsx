@@ -23,7 +23,7 @@ const ImagePosts = ({ posts, path }: Props) => {
 									<ImageWrapper>
 										{/* 임시 사진 */}
 										<PostImageTag
-											src={"https://elasticbeanstalk-us-west-1-616077318706.s3.us-west-1.amazonaws.com/images/0d45f23b-f3f6-4a3e-a53e-34c7b369a7f8KakaoTalk_20220820_000937074.png"}
+											src={post.imgPath}
 											alt="게시물 이미지"
 										/>
 									</ImageWrapper>
@@ -94,7 +94,8 @@ const PostImageTag = styled.img`
 	border-radius: 5px;
 	width: 100%;
 	height: 220px;
-	object-fit: contain;
+	object-fit: cover;
+	object-position: center center;
 `;
 
 const InfoWrapper = styled.div`
