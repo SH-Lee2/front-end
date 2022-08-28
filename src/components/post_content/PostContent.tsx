@@ -27,7 +27,7 @@ const PostContent = ({ post, region }: Props) => {
 				<div className="user_info">
 					<div>
 						<span className="nickname">{post?.useNick}</span>
-						{userProfile.no === post?.useNo && (
+						{userProfile?.no === post?.useNo && (
 							<span className="mine">내 댓글</span>
 						)}
 					</div>
@@ -36,7 +36,7 @@ const PostContent = ({ post, region }: Props) => {
 						<span className="addr2">{region?.regAddr2}</span>
 					</div>
 				</div>
-				{post?.useNo === userProfile.no && (
+				{post?.useNo === userProfile?.no && (
 					<EditModal onDelete={deleteHandler} onEdit={goToEdit} />
 				)}
 			</HeaderTag>
