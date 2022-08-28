@@ -34,20 +34,7 @@ const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 
 	const deleteHandler = () => {
 		// 삭제 api 호출
-		Swal.fire({
-			position: "center",
-			icon: "question",
-			title: "댓글을 삭제하시겠습니까?!",
-			confirmButtonText: "확인",
-			confirmButtonColor: "skyblue",
-			showCancelButton: true,
-			cancelButtonText: "취소",
-			cancelButtonColor: "red",
-		}).then((result) => {
-			if (result.isConfirmed) onDelete(comment.repNo);
-			else Swal.close();
-		});
-		setOpenEdit(false);
+		onDelete(comment.repNo);
 	};
 
 	const editModeHandler = () => {
@@ -75,6 +62,7 @@ const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 						<EditModal
 							onDelete={deleteHandler}
 							onEdit={editModeHandler}
+							title="댓글"
 						/>
 					)}
 				</CommentHeaderTag>
@@ -145,7 +133,7 @@ const CommentHeaderTag = styled.div`
 	align-items: center;
 	.user_info {
 		flex: 1;
-		column-gap: .75em;
+		column-gap: 0.75em;
 		display: flex;
 		flex-direction: column;
 		row-gap: 0.75em;

@@ -6,6 +6,8 @@ import styled from "styled-components";
 import authStore from "../../store/authStore";
 import EditModal from "../edit_modal/EditModal";
 import { useNavigate } from "react-router-dom";
+import { deletePost } from "../../services/post";
+import Swal from "sweetalert2";
 
 interface Props {
 	post: Post;
@@ -15,7 +17,10 @@ interface Props {
 const PostContent = ({ post, region }: Props) => {
 	const { userProfile } = authStore();
 	const navigate = useNavigate()
-	const deleteHandler = async () => {};
+	const deleteHandler = async() => {
+		await deletePost(post.artNo)
+		navigate(-1)
+	};
 	
 	// 수정 페이지
 	const goToEdit = async() => {
@@ -37,7 +42,7 @@ const PostContent = ({ post, region }: Props) => {
 					</div>
 				</div>
 				{post?.useNo === userProfile?.no && (
-					<EditModal onDelete={deleteHandler} onEdit={goToEdit} />
+					<EditModal onDelete={deleteHandler} onEdit={goToEdit} title="게시글"/>
 				)}
 			</HeaderTag>
 			<TitleTag>{post?.artSubject}</TitleTag>

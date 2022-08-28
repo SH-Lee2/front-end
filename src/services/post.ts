@@ -71,6 +71,10 @@ export const getDetailPost = async (artNo: number) => {
 
 //  게시물 삭제
 
+export const deletePost = async(artNo:number)=>{
+	await axios.delete(`/article/${artNo}`)
+}
+
 //  게시물 수정
 export const postUpdate = async ({
 	useNo,
