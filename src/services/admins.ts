@@ -12,8 +12,11 @@ export const CateList = (selected :string, curPage :number) => {
     })
 }
 
-export const AllUser = (curPage :number) => {
+export const TypeUser = (role :string, curPage :number) => {
     return axios.get('/manager/user', {
-        params: {page: curPage} 
+        params: {
+            Role: role,
+            page: curPage,
+        }
     })
 }

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import Pagination from '../../components/Pagination';
-import { AllUser } from '../../services/admins';
+import { TypeUser } from '../../services/admins';
 import * as a from '../../styles/Admin';
 import * as i from '../../styles/mypage/TabInner';
 import { PageT, UserT } from '../../types/types';
@@ -19,13 +19,15 @@ const Users = () => {
     const admins :number[] = [];
 
     const getUsers = async () => {
-        const res = await AllUser(curPage)
-        setPage(res.data.data.pageable);
         if (selected === '0') {
-            setData(res.data.data.list.filter((use :UserT) => use.useRole === 'USER'));
+            const res = await TypeUser('USER', curPage)
+            setData(res.data.data.list)
+            setPage(res.data.data.pageable)
         } else {
-            setData(res.data.data.list.filter((use :UserT) => use.useRole === 'ADMIN'));
-        }        
+            const res = await TypeUser('ADMIN', curPage)
+            setData(res.data.data.list)
+            setPage(res.data.data.pageable)
+        }
     }
 
     useEffect(() => {

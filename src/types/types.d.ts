@@ -1,16 +1,17 @@
 export interface Post {
-	useNo?: number;
-	useNick?: string;
-	artNo: number;
-	artCategory?: number;
-	artSubject: string;
-	artContents?: string;
-	artCreated?: string;
-	imgSave?: string | null;
-	regNo?: string;
-	regAddr1: string;
-	regAddr2: string;
-	artWSelect?: number;
+    useNo?:number,
+    useNick?:string,
+    artNo: number,
+    artCategory?:number,
+    artSubject: string,
+    artContents?:string,
+    artCreated?:string,
+    imgSave ?: string | null,
+	imgPath: string,
+    regNo?:string,
+    regAddr1: string,
+    regAddr2: string,
+    artWSelect?:number
 	artWselect?:number;
 }
 

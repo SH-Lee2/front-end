@@ -8,7 +8,7 @@ import SelectRezion from "../../components/select_region/SelectRegion";
 import { WrapperTag } from "../../components/CateHeader";
 import SelectWeather from "../../components/select_weather/SelectWeather";
 import authStore from "../../store/authStore";
-import { postUpload } from "../../services/post";
+import { postUpdate, postUpload } from "../../services/post";
 import { escape } from "html-escaper";
 import { Post } from "../../types/types";
 interface State {
@@ -23,12 +23,14 @@ const UploadPost = () => {
 	const { category, categoryNum, post } = location.state as State;
 	const [selectedRegion, setSelectedRegion] = useState<string>("01");
 	const [selectedWeather, setSelectedWeather] = useState<number>(
-		!post?.artWselect ? 0 :  post.artWselect
+		!post?.artWselect ? 0 : post.artWselect
 	);
 	const [enteredTitle, setEnteredTitle] = useState<string>(
 		post?.artSubject ? post?.artSubject : ""
 	);
-	const [enteredWrite, setEnteredWrite] = useState<string>("");
+	const [enteredWrite, setEnteredWrite] = useState<string>(
+		!post?.artContents ? "" : post?.artContents
+	);
 	const [uploadImg, setUploadImg] = useState<string[]>([]);
 	const { userProfile } = authStore();
 
@@ -51,10 +53,12 @@ const UploadPost = () => {
 
 	const submitHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		const imgArr = enteredWrite.match(/<*?src="(.*?)"/g);
+		const tmp = imgArr?.map((data) => data.split("=")[1].slice(1, -1));
 		Swal.fire({
 			position: "center",
 			icon: "question",
-			title: "게시물을 작성 하시겟습니까?",
+			title: `게시물을 ${post ? "수정" : "작성"} 하시겟습니까?`,
 			// timer: 1500,
 			confirmButtonText: "확인",
 			confirmButtonColor: "skyblue",
@@ -63,22 +67,34 @@ const UploadPost = () => {
 			cancelButtonColor: "red",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
-				await postUpload({
-					selectedRegion,
-					selectedWeather,
-					categoryNum,
-					enteredTitle,
-					enteredWrite: escape(enteredWrite),
-					useNo: userProfile.no,
-					uploadImg,
-				});
+				if (!post) {
+					await postUpload({
+						selectedRegion,
+						selectedWeather,
+						categoryNum,
+						enteredTitle,
+						enteredWrite: escape(enteredWrite),
+						useNo: userProfile.no,
+						uploadImg,
+					});
+				} else {
+					await postUpdate({
+						artNo: post.artNo,
+						selectedRegion,
+						selectedWeather,
+						categoryNum: post.artCategory,
+						enteredTitle,
+						enteredWrite: escape(enteredWrite),
+						useNo: userProfile.no,
+						uploadImg: tmp,
+					});
+				}
 				navigate(-1);
 			} else {
 				Swal.close();
 			}
 		});
 	};
-
 	return (
 		<ContainerTag>
 			<WrapperTag>

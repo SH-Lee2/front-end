@@ -1,3 +1,4 @@
+import { unescape } from "html-escaper";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -66,8 +67,9 @@ const DetailPost = () => {
 		const getPost = async () => {
 			setPostIsLoading(true);
 			const res = await getDetailPost(artNo);
-			setPost(res.data.data.article);
-			setPostRegion(res.data.data.region);
+			const {article, region} = res.data.data
+			setPost({...article,artContents : unescape(article.artContents.replaceAll("temporary", "images"))});
+			setPostRegion(region);
 			setPostIsLoading(false);
 		};
 		getPost();

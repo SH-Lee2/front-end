@@ -6,7 +6,6 @@ import styled from "styled-components";
 import authStore from "../../store/authStore";
 import EditModal from "../edit_modal/EditModal";
 import { useNavigate } from "react-router-dom";
-import {unescape}from "html-escaper"
 
 interface Props {
 	post: Post;
@@ -17,10 +16,10 @@ const PostContent = ({ post, region }: Props) => {
 	const { userProfile } = authStore();
 	const navigate = useNavigate()
 	const deleteHandler = async () => {};
-
+	
 	// 수정 페이지
 	const goToEdit = async() => {
-		navigate("/upload_post", {state : {post : post}})
+		navigate("/upload_post", {state : {post}})
 	}
 	return (
 		<ArticleTag>
@@ -43,7 +42,7 @@ const PostContent = ({ post, region }: Props) => {
 			</HeaderTag>
 			<TitleTag>{post?.artSubject}</TitleTag>
 			<TimeTag>{post?.artCreated}</TimeTag>
-			<Viewer initialValue={unescape(`${post?.artContents}`)} />
+			<Viewer initialValue={post?.artContents} />
 		</ArticleTag>
 	);
 };

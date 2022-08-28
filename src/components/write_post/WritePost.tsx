@@ -50,7 +50,7 @@ const WritePost = ({ onGetHtml, onGetImageArr, post }: Props) => {
 				ref={editRef}
 				placeholder="내용을 입력해주세요."
 				initialValue={
-					post?.artContents ? unescape(post?.artContents) : " "
+					post?.artContents ? post?.artContents : " "
 				}
 				previewStyle="vertical"
 				height="400px"

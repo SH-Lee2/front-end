@@ -13,7 +13,10 @@ interface nameT {
 
 const Map = () => {
     const [data,setData] = useState<WeatherT[]>([])
-    const weathers : string[] = ['서울', '경기도', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+    const [clickReg, setClickReg] = useState('01')
+
+    const weathers : string[] = ['서울', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+    const regNum :string[] = ['01', '09', '10', '11', '12', '13', '14', '15', '16', '17'];
 
     const getWeather = async () => {
         const res = await axios.get('/api')
@@ -56,7 +59,7 @@ const Map = () => {
                 <Img src='/weatherMap.jpg' alt='map'/>
                 {data && (
                     data.map((region, i) => (
-                        <City key={i} name={region.name}>
+                        <City key={i} name={region.name} onClick={() => setClickReg(regNum[i]) }>
                             <span id='name'>{weathers[i]}</span>
                             {weatherIcon(i, region.main.temp, region.weather[0].icon)}
                         </City>

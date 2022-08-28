@@ -1,9 +1,10 @@
 import axios from "axios";
 interface Props {
-	useNo: number;
+	artNo?:number;
+	useNo?: number;
 	enteredTitle: string;
 	enteredWrite: string;
-	categoryNum: number;
+	categoryNum?: number;
 	selectedRegion: string;
 	selectedWeather: number;
 	uploadImg: string[];
@@ -26,7 +27,7 @@ export const postUpload = async ({
 		"articles",
 		`{"useNo":${useNo}, "artSubject": "${enteredTitle}","artContents": "${enteredWrite}","artCategory":  "${categoryNum}","regNo": "${selectedRegion}","artWSelect" : ${selectedWeather}}`
 	);
-	const res = await axios.post("/article/testpost", form);
+	const res = await axios.post("/article/post", form);
 	return res;
 };
 
@@ -71,11 +72,32 @@ export const getDetailPost = async (artNo: number) => {
 //  게시물 삭제
 
 //  게시물 수정
+export const postUpdate = async ({
+	useNo,
+	artNo,
+	enteredTitle,
+	enteredWrite,
+	categoryNum,
+	selectedRegion,
+	selectedWeather,
+	uploadImg,
+}: Props) => {
+	const form = new FormData();
+	uploadImg?.forEach(path=>{
+		form.append("multipartFiles",`{"imgPath" : "${path}"}`)
+	})
+	form.append(
+		"articles",
+		`{"useNo":${useNo}, "artSubject": "${enteredTitle}","artContents": "${enteredWrite}","artCategory":  "${categoryNum}","regNo": "${selectedRegion}","artWSelect" : ${selectedWeather}}`
+	);
+	const res = await axios.put(`/article/${artNo}`, form);
+	return res;
+};
 
 //  게시물 사진
 export const uploadImage = async (image: any) => {
 	const form = new FormData();
 	form.append("multipartFiles", image);
-	const res = await axios.post(`/article/testupload`, form);
+	const res = await axios.post(`/article/upload`, form);
 	return res.data.data[0];
 };
