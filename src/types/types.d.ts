@@ -11,6 +11,7 @@ export interface Post {
 	regAddr1: string;
 	regAddr2: string;
 	artWSelect?: number;
+	artWselect?:number;
 }
 
 export type PageT = {

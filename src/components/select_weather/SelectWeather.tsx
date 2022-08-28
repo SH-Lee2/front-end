@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const WEAHTER = [
 	{ id: "sun", value: 1, icon: "☀️", text: "맑음" },
-	{ id: "sunBehindCloud", value: 2, icon: "⛅", text: "구름 많음" },
-	{ id: "cloud", value: 3, icon: "☁️", text: "흐림" },
+	{ id: "cloud", value: 2, icon: "☁️", text: "흐림" },
+	{ id: "snow", value: 3, icon: "⛄", text: "눈" },
 	{ id: "rain", value: 4, icon: "🌧️", text: "비" },
 	{ id: "lightning", value: 5, icon: "🌩️", text: "번개" },
 	{ id: "none", value: 0, icon: "✖️", text: "선택 안함" },

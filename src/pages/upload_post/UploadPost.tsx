@@ -22,9 +22,8 @@ const UploadPost = () => {
 	const navigate = useNavigate();
 	const { category, categoryNum, post } = location.state as State;
 	const [selectedRegion, setSelectedRegion] = useState<string>("01");
-
 	const [selectedWeather, setSelectedWeather] = useState<number>(
-		post?.artWSelect > -1 ? post?.artWSelect : 0
+		!post?.artWselect ? 0 :  post.artWselect
 	);
 	const [enteredTitle, setEnteredTitle] = useState<string>(
 		post?.artSubject ? post?.artSubject : ""
