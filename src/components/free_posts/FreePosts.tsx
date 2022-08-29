@@ -14,7 +14,7 @@ const FreePosts = ({ posts, path }: Props) => {
 			{!posts.length ? (
 				<Empty />
 			) : (
-				<ListTag>
+				<ListTag size={posts.length}>
 					{posts.map((post) => (
 						<li key={post.artNo}>
 							<Link
@@ -58,29 +58,29 @@ const FreePosts = ({ posts, path }: Props) => {
 export default FreePosts;
 
 const FreePostsTag = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	display: grid;
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: 5px;
+	height: 100%;
 `;
 
-const ListTag = styled.ul`
+const ListTag = styled.ul<{ size: number }>`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 	row-gap: 1em;
-	/* height: 100%; */
+	padding-top: 1em;
 	li {
-		:not(:last-child) {
-			border-bottom: 2px solid lightgray;
+		border-bottom: 2px solid lightgray;
+		:last-child {
+			border-bottom: ${({ size }) =>
+				size !== 1 ? "none" : "2px solid lightgray"};
 		}
 		a {
 			display: flex;
 			flex-direction: column;
-			row-gap: 0.8em;
 			justify-content: space-between;
-			padding: 0.5rem 1rem;
+			padding: 1em;
 			color: black;
 		}
 	}

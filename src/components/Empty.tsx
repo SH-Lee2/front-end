@@ -2,12 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 
-
 const Empty = () => {
-	const {state} = useLocation()
+	const { state } = useLocation();
 	return (
 		<EmptyTag>
-			{!state  ? "글이 없습니다." : "댓글이 없습니다."}
+			{!state ? "글이 없습니다." : "댓글이 없습니다."}
 		</EmptyTag>
 	);
 };
@@ -15,7 +14,7 @@ const Empty = () => {
 export default Empty;
 
 const EmptyTag = styled.div`
-	height: 120px;
+	height: 100%;
 	width: 100%;
 	display: flex;
 	align-items: center;
