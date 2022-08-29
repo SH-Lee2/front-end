@@ -90,7 +90,8 @@ const Join = () => {
 		enteredPassword2IsValid &&
 		enteredEmailIsValid &&
 		validCheckNickName &&
-		validCheckId
+		validCheckId &&
+		validCheckEmail
 	)
 		formValid = true;
 
@@ -152,6 +153,9 @@ const Join = () => {
 					confirmButtonText: "확인",
 					confirmButtonColor: "skyblue",
 				});
+			}else {
+				setValidCheckId(true);
+				checkedId = enteredId;
 			}
 		}
 		if (name === "nickname") {
