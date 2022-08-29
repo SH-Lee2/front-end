@@ -68,8 +68,7 @@ const ListTag = styled.ul<{ size: number }>`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	row-gap: 1em;
-	padding-top: 1em;
+	justify-content: space-between;
 	li {
 		border-bottom: 2px solid lightgray;
 		:last-child {
@@ -80,7 +79,7 @@ const ListTag = styled.ul<{ size: number }>`
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
-			padding: 1em;
+			padding: 1.2em;
 			color: black;
 		}
 	}

@@ -11,7 +11,11 @@ interface nameT {
     name :string
 }
 
-const Map = () => {
+interface Props {
+    onGetRegion?: (reg:string)=>void;
+}
+
+const Map = ({onGetRegion}:Props) => {
     const [data,setData] = useState<WeatherT[]>([])
     const [clickReg, setClickReg] = useState('01')
 
@@ -26,6 +30,11 @@ const Map = () => {
     useEffect(() => {
         getWeather()
     }, [])
+
+    const clickRegionHandler = (idx:number) => {
+        setClickReg(regNum[idx])
+        onGetRegion(clickReg)
+    }
 
     const weatherIcon = (i :number, temps :number, icon :string) => {
         let arr = []
@@ -59,7 +68,7 @@ const Map = () => {
                 <Img src='/weatherMap.jpg' alt='map'/>
                 {data && (
                     data.map((region, i) => (
-                        <City key={i} name={region.name} onClick={() => setClickReg(regNum[i]) }>
+                        <City key={i} name={region.name} onClick={() => clickRegionHandler(i) }>
                             <span id='name'>{weathers[i]}</span>
                             {weatherIcon(i, region.main.temp, region.weather[0].icon)}
                         </City>

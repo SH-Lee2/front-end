@@ -12,7 +12,6 @@ export interface Post {
     regAddr1: string,
     regAddr2: string,
 	artWselect?:number,
-    imgPath :string,
 }
 
 export type PageT = {

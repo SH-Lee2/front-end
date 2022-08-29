@@ -18,21 +18,21 @@ const Home = () => {
 	const [skyPosts, setSkyPosts] = useState<[]>([]);
 	const [skyIsLoading, setSkyIsLoading] = useState<boolean>(false);
 	// 지도 지역
-	// const [region, setRegion] = useState<string>("01");
+	const [region, setRegion] = useState<string>("01");
 
-	// const getRegion = (reg: string) => {
-	// 	setRegion(reg);
-	// };
+	const getRegion = (reg: string) => {
+		setRegion(reg);
+	};
 
-	// useEffect(() => {
-	// 	const getFreePosts = async () => {
-	// 		setFreeIsLoading(true);
-	// 		const res = await getCategoryPosts(1, region, 1, 6);
-	// 		setfreePosts(res.data.data.list);
-	// 		setFreeIsLoading(false);
-	// 	};
-	// 	getFreePosts();
-	// }, [region]);
+	useEffect(() => {
+		const getFreePosts = async () => {
+			setFreeIsLoading(true);
+			const res = await getCategoryPosts(1, region, 1, 6);
+			setfreePosts(res.data.data.list);
+			setFreeIsLoading(false);
+		};
+		getFreePosts();
+	}, [region]);
 
 	useEffect(() => {
 		const getMeetingPosts = async () => {
@@ -88,7 +88,7 @@ const Home = () => {
 							<h2>지도</h2>
 						</SectionTitleTag>
 					</SectionHeaderTag>
-					<Weather />
+					<Weather onGetRegion={getRegion}/>
 				</MapTag>
 			</FreePostAndMapTag>
 
