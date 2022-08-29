@@ -3,7 +3,7 @@ import CateHeader from "../../components/CateHeader";
 import FreePosts from "../../components/free_posts/FreePosts";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import Pagination from "../../components/Pagination";
-import { getGategoryPosts } from "../../services/post";
+import { getCategoryPosts } from "../../services/post";
 import { PageT } from "../../types/types";
 import { ContainerTag } from "../meeting/Meeting";
 
@@ -20,7 +20,7 @@ const Free = () => {
 	useEffect(() => {
 		const getPosts = async () => {
 			setIsLoading(true);
-			const res = await getGategoryPosts(1, region, curPage);
+			const res = await getCategoryPosts(1, region, curPage);
 			setPosts(res.data.data.list);
 			setPage(res.data.data.pageable);
 			setIsLoading(false);

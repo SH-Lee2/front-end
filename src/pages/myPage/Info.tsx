@@ -35,7 +35,7 @@ const Info = () => {
 
     useEffect(() => {
         getInfo()
-    }, [userProfile.no])
+    }, [])
 
     //syncro
     useEffect(() => { changeNick() }, [useNick])
@@ -122,7 +122,7 @@ const Info = () => {
             </Line>
             <Line>
                 <Title>닉네임</Title>                
-                <i.Val placeholder={data?.useNick} onChange={(e)=>  setNick(e.target.value)}/>
+                <i.Val placeholder={data?.useNick} onChange={(e)=> setNick(e.target.value)}/>
                 <span>{nickMsg}</span>
             </Line>
             <Line>

@@ -4,7 +4,7 @@ import FreePosts from "../../components/free_posts/FreePosts";
 import { AiOutlineCaretRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import ImagePosts from "../../components/image_posts/ImagePosts";
-import { getMainPosts } from "../../services/post";
+import { getCategoryPosts, getMainPosts } from "../../services/post";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import Weather from "../../components/Weather";
 
@@ -17,6 +17,22 @@ const Home = () => {
 	const [dailyIsLoading, setDailyIsLoading] = useState<boolean>(false);
 	const [skyPosts, setSkyPosts] = useState<[]>([]);
 	const [skyIsLoading, setSkyIsLoading] = useState<boolean>(false);
+	// 지도 지역
+	// const [region, setRegion] = useState<string>("01");
+
+	// const getRegion = (reg: string) => {
+	// 	setRegion(reg);
+	// };
+
+	// useEffect(() => {
+	// 	const getFreePosts = async () => {
+	// 		setFreeIsLoading(true);
+	// 		const res = await getCategoryPosts(1, region, 1, 6);
+	// 		setfreePosts(res.data.data.list);
+	// 		setFreeIsLoading(false);
+	// 	};
+	// 	getFreePosts();
+	// }, [region]);
 
 	useEffect(() => {
 		const getMeetingPosts = async () => {
@@ -25,12 +41,7 @@ const Home = () => {
 			setMeetingPosts(res.data.data.list);
 			setMeetingIsLoading(false);
 		};
-		const getFreePosts = async () => {
-			setFreeIsLoading(true);
-			const res = await getMainPosts(1, 6);
-			setfreePosts(res.data.data.list);
-			setFreeIsLoading(false);
-		};
+
 		const getSkyPosts = async () => {
 			setSkyIsLoading(true);
 			const res = await getMainPosts(2, 4);
@@ -44,10 +55,10 @@ const Home = () => {
 			setDailyIsLoading(false);
 		};
 		getMeetingPosts();
-		getFreePosts();
 		getDailyPosts();
 		getSkyPosts();
 	}, []);
+
 	return (
 		<ContainerTag>
 			<FreePostAndMapTag>
@@ -82,7 +93,7 @@ const Home = () => {
 			</FreePostAndMapTag>
 
 			{/* 오늘의 옷 - 데일리 룩 */}
-			<section>
+			<SectionTag>
 				<SectionHeaderTag>
 					<SectionTitleTag>
 						<h2>데일리 룩</h2>
@@ -98,12 +109,12 @@ const Home = () => {
 				) : (
 					<ImagePosts
 						posts={dailyPosts}
-						path="/today_clothes/daily"
+						path="/today_clothes/dailylook"
 					/>
 				)}
-			</section>
+			</SectionTag>
 			{/* 오늘의 하늘 */}
-			<section>
+			<SectionTag>
 				<SectionHeaderTag>
 					<SectionTitleTag>
 						<h2>오늘의 하늘</h2>
@@ -119,9 +130,9 @@ const Home = () => {
 				) : (
 					<ImagePosts posts={skyPosts} path="/today_sky" />
 				)}
-			</section>
+			</SectionTag>
 			{/* 오늘의 모임 */}
-			<section>
+			<SectionTag>
 				<SectionHeaderTag>
 					<SectionTitleTag>
 						<h2>오늘의 모임</h2>
@@ -137,7 +148,7 @@ const Home = () => {
 				) : (
 					<FreePosts posts={meetingPosts} path="/today_meeting" />
 				)}
-			</section>
+			</SectionTag>
 		</ContainerTag>
 	);
 };
@@ -158,9 +169,10 @@ const ContainerTag = styled.div`
 const FreePostAndMapTag = styled.section`
 	display: flex;
 	flex-direction: column-reverse;
+	min-height: 490px;
 	row-gap: 2em;
 	height: 100%;
-	@media screen and (min-width: 768px) {
+	@media screen and (min-width: 1023px) {
 		flex-direction: row;
 		column-gap: 2em;
 		row-gap: 0;
@@ -178,6 +190,8 @@ const MapTag = styled.div`
 	display: flex;
 	flex-direction: column;
 	flex-basis: 50%;
+	height: 100%;
+
 `;
 
 const SectionHeaderTag = styled.div`
@@ -217,4 +231,9 @@ const SectionTitleTag = styled.div`
 	@media screen and (min-width: 875px) {
 		font-size: 1.4rem;
 	}
+`;
+
+const SectionTag = styled.section`
+	min-height: 150px;
+	height: max-content;
 `;

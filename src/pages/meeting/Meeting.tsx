@@ -3,7 +3,7 @@ import styled from "styled-components";
 import CateHeader from "../../components/CateHeader";
 import Pagination from "../../components/Pagination";
 import { PageT } from "../../types/types";
-import { getGategoryPosts } from "../../services/post";
+import { getCategoryPosts } from "../../services/post";
 import FreePosts from "../../components/free_posts/FreePosts";
 import LoadingSpinner from "../../components/LoadingSpinner";
 const Meeting = () => {
@@ -18,7 +18,7 @@ const Meeting = () => {
 	useEffect(() => {
 		const getPosts = async () => {
 			setIsLoading(true);
-			const res = await getGategoryPosts(3, region, curPage-1);
+			const res = await getCategoryPosts(3, region, curPage-1);
 			setPosts(res.data.data.list);
 			setPage(res.data.data.pageable);
 			setIsLoading(false);
