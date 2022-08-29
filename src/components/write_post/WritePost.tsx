@@ -15,7 +15,6 @@ import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import styled from "styled-components";
 
 import { uploadImage } from "../../services/post";
-import { unescape } from "html-escaper";
 import { Post } from "../../types/types";
 
 interface Props {

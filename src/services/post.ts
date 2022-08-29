@@ -8,6 +8,7 @@ interface Props {
 	selectedRegion: string;
 	selectedWeather: number;
 	uploadImg: string[];
+	multipartFiles : string [];
 }
 
 export const postUpload = async ({
@@ -17,11 +18,16 @@ export const postUpload = async ({
 	categoryNum,
 	selectedRegion,
 	selectedWeather,
-	uploadImg,
+	uploadImg, //  이미지 업로드 할때 받은 경로
+	multipartFiles, // 컨테츠에서 뽑은 이미지 경로
 }: Props) => {
 	const form = new FormData();
-	uploadImg.forEach(path=>{
+	const deleteFiles = uploadImg?.filter(path => !multipartFiles?.includes(path))
+	multipartFiles?.forEach(path=>{
 		form.append("multipartFiles",`{"imgPath" : "${path}"}`)
+	})
+	deleteFiles?.forEach(path=>{
+		form.append("deleteFiles",`{"imgPath" : "${path}"}`)
 	})
 	form.append(
 		"articles",
@@ -44,14 +50,15 @@ export const getMainPosts = async (categoryNum: number, size: number) => {
 };
 
 //  페이지별 게시물
-export const getGategoryPosts = async (
+export const getCategoryPosts = async (
 	categoryNum: number,
-	region: string,
-	page: number
+	regNo: string,
+	page: number,
+	size?:number
 ) => {
 	try {
 		const res = await axios.get(`/article/list/${categoryNum}`, {
-			params: { page, regNo: region },
+			params: { page, regNo, size},
 		});
 		return res;
 	} catch (error: any) {
@@ -85,10 +92,15 @@ export const postUpdate = async ({
 	selectedRegion,
 	selectedWeather,
 	uploadImg,
+	multipartFiles
 }: Props) => {
 	const form = new FormData();
+	const deleteFiles = uploadImg?.filter(path => !multipartFiles?.includes(path))
 	uploadImg?.forEach(path=>{
 		form.append("multipartFiles",`{"imgPath" : "${path}"}`)
+	})
+	deleteFiles?.forEach(path=>{
+		form.append("deleteFiles",`{"imgPath" : "${path}"}`)
 	})
 	form.append(
 		"articles",

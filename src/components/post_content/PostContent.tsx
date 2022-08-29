@@ -12,9 +12,10 @@ import Swal from "sweetalert2";
 interface Props {
 	post: Post;
 	region: Region;
+	images: string[]
 }
 
-const PostContent = ({ post, region }: Props) => {
+const PostContent = ({ post, region ,images}: Props) => {
 	const { userProfile } = authStore();
 	const navigate = useNavigate()
 	const deleteHandler = async() => {
@@ -24,7 +25,7 @@ const PostContent = ({ post, region }: Props) => {
 	
 	// 수정 페이지
 	const goToEdit = async() => {
-		navigate("/upload_post", {state : {post}})
+		navigate("/upload_post", {state : {post , images}})
 	}
 	return (
 		<ArticleTag>

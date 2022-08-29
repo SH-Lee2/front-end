@@ -48,7 +48,7 @@ const Posts = () => {
                             <Link to={`/${art.artCategory}/${art.artNo}`} id='subject'>
                                 <Thumnail>
                                     <div id='ThumImage'>
-                                        <img src={process.env.PUBLIC_URL + '/test.jpg'} alt='test' />
+                                        <img src={art.imgPath} alt='MyPost' />
                                     </div>
                                 </Thumnail>
                                 <Title>
@@ -95,12 +95,12 @@ const Thumnail = styled.div`
         padding-top: 100%;
         img {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            max-width: 100%;
-            height: auto;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
         }
     }
 `;

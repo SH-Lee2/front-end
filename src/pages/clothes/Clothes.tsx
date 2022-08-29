@@ -49,7 +49,7 @@ const Clothes = () => {
               <DailyCard key={i}>
                 <Link to={`/today_clothes/main/${art.artNo}`}>
                   <c.Thumnail>
-                    <c.Img src='/test.jpg' alt='test1' />{/* 임시 */}
+                    <c.Img src={art.imgPath} alt='Clothes'/>
                   </c.Thumnail>
                   <span id='color'>{art.regAddr1} {art.regAddr2}</span>
                 </Link>

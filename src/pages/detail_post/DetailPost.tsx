@@ -24,6 +24,7 @@ interface CustomizedState {
 const DetailPost = () => {
 	const { userProfile } = authStore();
 	const [post, setPost] = useState<Post>();
+	const [postImg, setPostImg]= useState<string[]>([]);
 	const [postRegion, setPostRegion] = useState<Region>();
 	const [postIsLoading, setPostIsLoading] = useState<boolean>(false);
 	const [comments, setComments] = useState<CommentT[]>([]);
@@ -67,8 +68,10 @@ const DetailPost = () => {
 		const getPost = async () => {
 			setPostIsLoading(true);
 			const res = await getDetailPost(artNo);
-			const {article, region} = res.data.data
+			const {article, region,articleImg} = res.data.data
 			setPost({...article,artContents : unescape(article.artContents.replaceAll("temporary", "images"))});
+			const imagePath = articleImg.map((data: { imgPath: string; }) => data.imgPath)
+			setPostImg(imagePath)
 			setPostRegion(region);
 			setPostIsLoading(false);
 		};
@@ -80,7 +83,7 @@ const DetailPost = () => {
 			{postIsLoading ? (
 				<LoadingSpinner />
 			) : (
-				<PostContent post={post} region={postRegion} />
+				<PostContent post={post} region={postRegion} images={postImg}/>
 			)}
 
 			{commentIsLoading && <LoadingSpinner />}

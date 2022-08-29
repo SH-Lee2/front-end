@@ -41,7 +41,7 @@ const DailyLook = () => {
                             <c.Card key={i}>
                                 <Link to={`/today_clothes/dailylook/${art.artNo}`}>
                                     <c.Thumnail>
-                                        <c.Img src='/test.jpg' alt='test1'/>{/* 대기중 */}
+                                        <c.Img src={art.imgPath} alt='DailyLook'/>
                                     </c.Thumnail>
                                     <p id='color'>{art.artSubject}</p>
                                     <span id='color'>{art.useNick}&nbsp;</span>

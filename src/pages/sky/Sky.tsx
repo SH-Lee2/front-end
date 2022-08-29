@@ -41,7 +41,7 @@ const Sky = () => {
                             <c.Card key={i}>
                                 <Link to={`/today_sky/${art.artNo}`}>
                                     <c.Thumnail>
-                                        <c.Img src='/test.jpg' alt='test1'/>
+                                        <c.Img src={art.imgPath} alt='Sky'/>
                                     </c.Thumnail>
                                     <p id='color'>{art.artSubject}</p>
                                     <span id='color'>{art.useNick}&nbsp;</span>
