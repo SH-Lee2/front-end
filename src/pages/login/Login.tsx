@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
@@ -9,7 +9,6 @@ import Swal from "sweetalert2";
 import { login } from "../../services/user";
 import authStore from "../../store/authStore";
 const Login = () => {
-	const navigate = useNavigate();
 	const { addUser } = authStore();
 	const {
 		value: enteredId,
@@ -37,16 +36,6 @@ const Login = () => {
 			addUser
 		);
 		if (res.data?.header.code !== 200) {
-		// 	Swal.fire({
-		// 		position: "center",
-		// 		icon: "success",
-		// 		title: "로그인 완료!",
-		// 		timer: 1500,
-		// 		confirmButtonText: "확인",
-		// 		confirmButtonColor: "skyblue",
-		// 	}).then(() => navigate(-1));
-		// } else 
-		// {
 			Swal.fire({
 				position: "center",
 				icon: "warning",
@@ -77,6 +66,7 @@ const Login = () => {
 								onChange={idChangedHandler}
 								onBlur={idBlurHandler}
 								required
+								autoFocus
 							/>
 							<input
 								type="password"
@@ -236,7 +226,7 @@ export const InputWrapperTag = styled.div`
 		padding: 0.5em;
 		font-size: 1rem;
 		letter-spacing: 1px;
-		border: 1px solid skyblue;
+		border: 1px solid lightgray;
 		border-radius: 5px;
 		:focus {
 			outline: none;

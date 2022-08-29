@@ -13,7 +13,7 @@ import {
 import { AiOutlineCheck } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { checkId, checkNickName, signUp } from "../../services/user";
+import { checkEmail, checkId, checkNickName, signUp } from "../../services/user";
 import { FcGoogle } from "react-icons/fc";
 import { SiNaver } from "react-icons/si";
 import { RiKakaoTalkFill } from "react-icons/ri";
@@ -21,8 +21,9 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 const Join = () => {
 	const navigate = useNavigate();
 	const [gender, setGender] = useState<string>("0");
-	const [vaildCheckNickName, setVaildCheckNickName] = useState(false);
-	const [vaildCheckId, setVaildCheckId] = useState(false);
+	const [validCheckNickName, setValidCheckNickName] = useState<boolean>(false);
+	const [validCheckId, setValidCheckId] = useState<boolean>(false);
+	const [validCheckEmail, setValidCheckEmail] = useState<boolean>(false);
 	const {
 		value: enteredName,
 		isValid: enteredNameIsValid,
@@ -88,8 +89,8 @@ const Join = () => {
 		enteredPasswordIsValid &&
 		enteredPassword2IsValid &&
 		enteredEmailIsValid &&
-		vaildCheckNickName &&
-		vaildCheckId
+		validCheckNickName &&
+		validCheckId
 	)
 		formValid = true;
 
@@ -120,25 +121,30 @@ const Join = () => {
 
 	let checkedId = "";
 	let checkedNickName = "";
+	let checkedEmail = ""
 
 	// 중복체크 후 지웠을때 이벤트
 	useEffect(() => {
 		if (checkedId !== enteredId) {
-			setVaildCheckId(false);
+			setValidCheckId(false);
 		}
 	}, [checkedId, enteredId]);
 	useEffect(() => {
 		if (checkedNickName !== enteredNickName) {
-			setVaildCheckNickName(false);
+			setValidCheckNickName(false);
 		}
 	}, [checkedNickName, enteredNickName]);
+	useEffect(() => {
+		if (checkedEmail !== enteredEmail) {
+			setValidCheckEmail(false);
+		}
+	}, [checkedEmail, enteredEmail]);
 
 	const vaildCheckHandler = async (name: string) => {
 		if (name === "id") {
 			const res = await checkId(enteredId);
-			console.log(res);
 			if (res.data === true) {
-				setVaildCheckId(false);
+				setValidCheckId(false);
 				Swal.fire({
 					position: "center",
 					icon: "error",
@@ -146,15 +152,12 @@ const Join = () => {
 					confirmButtonText: "확인",
 					confirmButtonColor: "skyblue",
 				});
-			} else {
-				setVaildCheckId(true);
-				checkedId = enteredId;
 			}
 		}
 		if (name === "nickname") {
 			const res = await checkNickName(enteredNickName);
 			if (res.data === true) {
-				setVaildCheckNickName(false);
+				setValidCheckNickName(false);
 				Swal.fire({
 					position: "center",
 					icon: "error",
@@ -163,8 +166,24 @@ const Join = () => {
 					confirmButtonColor: "skyblue",
 				});
 			} else {
-				setVaildCheckNickName(true);
+				setValidCheckNickName(true);
 				checkedNickName = enteredNickName;
+			}
+		}
+		if (name === "email") {
+			const res = await checkEmail(enteredEmail);
+			if (res.data === true) {
+				setValidCheckEmail(false);
+				Swal.fire({
+					position: "center",
+					icon: "error",
+					title: "중복된 이메일 입니다.",
+					confirmButtonText: "확인",
+					confirmButtonColor: "skyblue",
+				});
+			} else {
+				setValidCheckEmail(true);
+				checkedEmail = enteredEmail;
 			}
 		}
 	};
@@ -215,11 +234,11 @@ const Join = () => {
 								<ButtonTag
 									type="button"
 									bgColor={
-										vaildCheckNickName ? "skyblue" : "gray"
+										validCheckNickName ? "skyblue" : "gray"
 									}
 									color="white"
 									border={
-										vaildCheckNickName ? "skyblue" : "none"
+										validCheckNickName ? "skyblue" : "none"
 									}
 									disabled={!enteredNickNameIsValid}
 									onClick={() =>
@@ -248,12 +267,11 @@ const Join = () => {
 									onBlur={idBlurHandler}
 									required
 								/>
-
 								<ButtonTag
 									type="button"
-									bgColor={vaildCheckId ? "skyblue" : "gray"}
+									bgColor={validCheckId ? "skyblue" : "gray"}
 									color="white"
-									border={vaildCheckId ? "skyblue" : "none"}
+									border={validCheckId ? "skyblue" : "none"}
 									disabled={!enteredIdIsValid}
 									onClick={() => vaildCheckHandler("id")}
 								>
@@ -263,6 +281,36 @@ const Join = () => {
 							{idInputHasError && (
 								<ErrorTag>
 									아이디를 5자리 이상 입력해주세요.
+								</ErrorTag>
+							)}
+						</InputWrapperTag>
+						{/* 이메일 */}
+						<InputWrapperTag>
+							<label htmlFor="email">이메일</label>
+							<VaildCheckWrapperTag>
+								<input
+									id="email"
+									type="email"
+									placeholder="이메일을 입력해주세요."
+									value={enteredEmail}
+									onChange={emailChangedHandler}
+									onBlur={emailBlurHandler}
+									required
+								/>
+								<ButtonTag
+									type="button"
+									bgColor={validCheckEmail ? "skyblue" : "gray"}
+									color="white"
+									border={validCheckEmail ? "skyblue" : "none"}
+									disabled={!enteredEmailIsValid}
+									onClick={() => vaildCheckHandler("email")}
+								>
+									<AiOutlineCheck />
+								</ButtonTag>
+							</VaildCheckWrapperTag>
+							{emailInputHasError && (
+								<ErrorTag>
+									이메일을 양식에 맞게 다시 입력해주세요.
 								</ErrorTag>
 							)}
 						</InputWrapperTag>
@@ -298,24 +346,6 @@ const Join = () => {
 							/>
 							{password2InputHasError && (
 								<ErrorTag>비밀번호가 서로 다릅니다.</ErrorTag>
-							)}
-						</InputWrapperTag>
-						{/* 이메일 */}
-						<InputWrapperTag>
-							<label htmlFor="email">이메일</label>
-							<input
-								id="email"
-								type="email"
-								placeholder="이메일을 입력해주세요."
-								value={enteredEmail}
-								onChange={emailChangedHandler}
-								onBlur={emailBlurHandler}
-								required
-							/>
-							{emailInputHasError && (
-								<ErrorTag>
-									이메일을 양식에 맞게 다시 입력해주세요.
-								</ErrorTag>
 							)}
 						</InputWrapperTag>
 						{/* 성별 여자, 남자, 선택안함 - 라디오 */}

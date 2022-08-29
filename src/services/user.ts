@@ -37,6 +37,11 @@ export const checkNickName = async (userNickName: string) => {
 	return res.data;
 };
 
+export const checkEmail = async(userEmail:string)=>{
+	const res = await axios.get(`/user/Email/${userEmail}`);
+	return res.data
+}
+
 export const findId = async (email: string) => {
 	try {
 		const res = await axios.get(`/user/myId/${email}`);
