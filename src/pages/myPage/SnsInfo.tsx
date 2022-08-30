@@ -7,7 +7,7 @@ import authStore, { User } from '../../store/authStore';
 import * as i from '../../styles/mypage/TabInner';
 
 const SnsInfo = () => {
-    const { userProfile } = authStore();
+    const { userProfile, updateUser } = authStore();
     const navigate = useNavigate();
 
     const [useNick,setNick] = useState('');
@@ -43,7 +43,9 @@ const SnsInfo = () => {
                     showConfirmButton: false,
                     timer: 1000
                 })
-                .then(() => { navigate('/'); }) //메인페이지 이동
+                .then(() => { 
+                    updateUser(useNick, userProfile)
+                    navigate('/'); }) //메인페이지 이동
             }else {
                 Swal.fire({
                     icon: 'error',

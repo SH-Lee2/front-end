@@ -9,7 +9,7 @@ import * as i from '../../styles/mypage/TabInner';
 import { UserT } from '../../types/types';
 
 const Info = () => {
-    const { userProfile } = authStore();
+    const { userProfile, updateUser} = authStore();
 
     const navigate = useNavigate();
 
@@ -96,7 +96,9 @@ const Info = () => {
                 showConfirmButton: false,
                 timer: 1000
             })
-            .then(() => { navigate('/'); }) //메인페이지 이동
+            .then(() => { 
+                updateUser(useNick, userProfile)
+                navigate('/'); }) //메인페이지 이동
         }else {
             Swal.fire({
                 icon: 'error',
