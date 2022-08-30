@@ -18,7 +18,6 @@ const useInput = (validateValue: { (value: string): boolean }) => {
 	const reset = () => {
 		setEnteredValue("");
 		setIsTouched(false);
-		console.log("asd")
 	};
 
 	return {

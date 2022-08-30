@@ -52,7 +52,7 @@ const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 					<div className="user_info">
 						<div>
 							<span className="nickname">{comment.useNick}</span>
-							{userProfile?.nickname === comment.useNick && (
+							{userProfile?.no === comment?.useNo && (
 								<span className="mine">내 댓글</span>
 							)}
 						</div>

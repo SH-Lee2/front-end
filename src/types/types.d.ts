@@ -34,6 +34,7 @@ export interface CommentT {
     useNick: string;
     artCategory: number;
     artNo: number;
+    useNo?:number;
 }
 
 export interface Region {
