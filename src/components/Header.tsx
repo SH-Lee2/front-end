@@ -188,6 +188,7 @@ const SecondNavTag = styled.ul`
 	column-gap: 0.5em;
 	.border {
 		font-size: 0.7rem;
+		font-weight: 500;
 		color: skyblue;
 		cursor: pointer;
 	}
