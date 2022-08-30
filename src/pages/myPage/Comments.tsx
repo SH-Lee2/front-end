@@ -25,6 +25,26 @@ const Comments = () => {
         setIsLoading(false)
     }
 
+    const datailLink = (categoryNum :number, artNo :number, repContents :string) => {
+        let arr = []
+        let categoryPath = ''
+        if (categoryNum === 0){
+            categoryPath = '/today_clothes/dailylook'
+        } else if (categoryNum === 1) {
+            categoryPath = '/today_clothes/free'
+        } else if (categoryNum === 2) {
+            categoryPath = '/today_sky'
+        } else if (categoryNum === 3) {
+            categoryPath = '/today_meeting'
+        }
+        arr.push(
+            <Link to={`${categoryPath}/${artNo}`} state={{ artNo: artNo}} id='cmt'>
+                <li>{repContents}</li>
+            </Link>
+        )
+        return arr;
+    }
+
     useEffect(() => {
         getComments()
     },[curPage])
@@ -45,9 +65,7 @@ const Comments = () => {
                 {data.length > 0 ? (
                     data.map((com, i) => (
                         <Cmt key={i}>
-                            <Link to={`/${com.artCategory}/${com.repNo}`} id='cmt'>
-                                <li>{com.repContents}</li>
-                            </Link>
+                            { datailLink(com.artCategory, com.artNo, com.repContents) }
                             <li id='date'>{com.repCreated.slice(0,8)}</li>
                         </Cmt>
                     ))

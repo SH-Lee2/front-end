@@ -39,7 +39,7 @@ const Sky = () => {
                     {data && (
                         data.map((art,i) => (
                             <c.Card key={i}>
-                                <Link to={`/today_sky/${art.artNo}`}>
+                                <Link to={`/today_sky/${art.artNo}`} state={{ artNo: art.artNo }}>
                                     <c.Thumnail>
                                         <c.Img src={art.imgPath} alt='Sky'/>
                                     </c.Thumnail>

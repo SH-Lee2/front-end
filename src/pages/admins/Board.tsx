@@ -61,7 +61,30 @@ const Board = () => {
 
     const cateChange = (cate :string) => {
         setSelected(cate);
-        setCurPage(1)
+        setCurPage(1);
+    }
+
+    const datailLink = (categoryNum :number, artNo :number, artSubject :string, regAddr1 :string, regAddr2 :string) => {
+        let arr = []
+        let categoryPath = ''
+        if (categoryNum === 0){
+            categoryPath = '/today_clothes/dailylook'
+        } else if (categoryNum === 1) {
+            categoryPath = '/today_clothes/free'
+        } else if (categoryNum === 2) {
+            categoryPath = '/today_sky'
+        } else if (categoryNum === 3) {
+            categoryPath = '/today_meeting'
+        }
+        arr.push(
+            <Link to={`${categoryPath}/${artNo}`} state={{ artNo: artNo }} id='head2'>
+                <li id='subject'> 
+                    <span id='sub'>{artSubject}</span>
+                    <span id='dist'>{regAddr1} {regAddr2}</span>
+                </li>
+            </Link>
+        )
+        return arr;
     }
 
     return (
@@ -88,12 +111,9 @@ const Board = () => {
                 {article && (
                     article.map((post,i) => (
                         <Cnt key={i}>
-                            <Link to={`/${post.artCategory}/${post.artNo}`} id='head2'>
-                                <li id='subject'> 
-                                    <span id='sub'>{post.artSubject}</span>
-                                    <span id='dist'>{post.regAddr1} {post.regAddr2}</span>
-                                </li>
-                            </Link>
+                            {
+                                datailLink(post.artCategory, post.artNo, post.artSubject, post.regAddr1, post.regAddr2)
+                            }
                                 <li>{post.useNick}</li>
                                 <li id='date'>{post.artCreated.slice(0,8)}</li>
                                 <li id='ck'>

@@ -172,7 +172,7 @@ const FreePostAndMapTag = styled.section`
 	min-height: 490px;
 	row-gap: 2em;
 	height: 100%;
-	@media screen and (min-width: 1023px) {
+	@media screen and (min-width: 820px) {
 		flex-direction: row;
 		column-gap: 2em;
 		row-gap: 0;

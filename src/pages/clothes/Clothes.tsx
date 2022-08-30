@@ -47,7 +47,7 @@ const Clothes = () => {
           {daily && (
             daily.map((art, i) => (
               <DailyCard key={i}>
-                <Link to={`/today_clothes/main/${art.artNo}`}>
+                <Link to={`/today_clothes/dailylook/${art.artNo}`} state={{ artNo: art.artNo }}>
                   <c.Thumnail>
                     <c.Img src={art.imgPath} alt='Clothes'/>
                   </c.Thumnail>

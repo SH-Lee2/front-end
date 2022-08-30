@@ -25,6 +25,34 @@ const Posts = () => {
         setIsLoading(false)
     }
 
+    const datailLink = (categoryNum :number, artNo :number, imgPath :string, artSubject :string, regAddr1 :string, regAddr2 :string) => {
+        let arr = []
+        let categoryPath = ''
+        if (categoryNum === 0){
+            categoryPath = '/today_clothes/dailylook'
+        } else if (categoryNum === 1) {
+            categoryPath = '/today_clothes/free'
+        } else if (categoryNum === 2) {
+            categoryPath = '/today_sky'
+        } else if (categoryNum === 3) {
+            categoryPath = '/today_meeting'
+        }
+        arr.push(
+            <Link to={`${categoryPath}/${artNo}`} state={{ artNo: artNo }} id='subject'>
+                <Thumnail>
+                    <div id='ThumImage'>
+                        <img src={imgPath} alt='MyPost' />
+                    </div>
+                </Thumnail>
+                <Title>
+                    <span id='sub'>{artSubject}</span>
+                    <span id='dist'>{regAddr1} {regAddr2}</span>
+                </Title>
+            </Link>
+        )
+        return arr;
+    }
+
     useEffect(() => {
         getPosts()
     },[curPage])
@@ -45,17 +73,9 @@ const Posts = () => {
                 {data.length > 0  ? (
                     data?.map((art, i) => (                    
                         <Article key={i}>
-                            <Link to={`/${art.artCategory}/${art.artNo}`} id='subject'>
-                                <Thumnail>
-                                    <div id='ThumImage'>
-                                        <img src={art.imgPath} alt='MyPost' />
-                                    </div>
-                                </Thumnail>
-                                <Title>
-                                    <span id='sub'>{art.artSubject}</span>
-                                    <span id='dist'>{art.regAddr1} {art.regAddr2}</span>
-                                </Title>
-                            </Link>
+                            {
+                                datailLink(art.artCategory, art.artNo, art.imgPath, art.artSubject, art.regAddr1, art.regAddr2)
+                            }
                             <Date>{art.artCreated.slice(0,8)}</Date>
                         </Article>
                     ))

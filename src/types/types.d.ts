@@ -33,6 +33,7 @@ export interface CommentT {
     repNo: number;
     useNick: string;
     artCategory: number;
+    artNo: number;
 }
 
 export interface Region {
