@@ -1,4 +1,5 @@
 import axios from "axios";
+
 interface Props {
 	artNo?:number;
 	useNo?: number;
@@ -23,6 +24,7 @@ export const postUpload = async ({
 }: Props) => {
 	const form = new FormData();
 	const deleteFiles = uploadImg?.filter(path => !multipartFiles?.includes(path))
+	const updateWrite = enteredWrite.replaceAll("temporary", "images")
 	multipartFiles?.forEach(path=>{
 		form.append("multipartFiles",`{"imgPath" : "${path}"}`)
 	})
@@ -31,7 +33,7 @@ export const postUpload = async ({
 	})
 	form.append(
 		"articles",
-		`{"useNo":${useNo}, "artSubject": "${enteredTitle}","artContents": "${enteredWrite}","artCategory":  "${categoryNum}","regNo": "${selectedRegion}","artWSelect" : ${selectedWeather}}`
+		`{"useNo":${useNo}, "artSubject": "${enteredTitle}","artContents": "${updateWrite}","artCategory":  "${categoryNum}","regNo": "${selectedRegion}","artWSelect" : ${selectedWeather}}`
 	);
 	const res = await axios.post("/article/post", form);
 	return res;
@@ -96,6 +98,7 @@ export const postUpdate = async ({
 }: Props) => {
 	const form = new FormData();
 	const deleteFiles = uploadImg?.filter(path => !multipartFiles?.includes(path))
+	const updateWrite = enteredWrite.replaceAll("temporary", "images")
 	uploadImg?.forEach(path=>{
 		form.append("multipartFiles",`{"imgPath" : "${path}"}`)
 	})
@@ -104,7 +107,7 @@ export const postUpdate = async ({
 	})
 	form.append(
 		"articles",
-		`{"useNo":${useNo}, "artSubject": "${enteredTitle}","artContents": "${enteredWrite}","artCategory":  "${categoryNum}","regNo": "${selectedRegion}","artWSelect" : ${selectedWeather}}`
+		`{"useNo":${useNo}, "artSubject": "${enteredTitle}","artContents": "${updateWrite}","artCategory":  "${categoryNum}","regNo": "${selectedRegion}","artWSelect" : ${selectedWeather}}`
 	);
 	const res = await axios.put(`/article/${artNo}`, form);
 	return res;

@@ -26,7 +26,7 @@ interface Props {
 const WritePost = ({ onGetHtml, onGetImageArr, post }: Props) => {
 	const editRef = useRef<Editor>(null);
 	const onChangeHandler = () => {
-		onGetHtml(editRef.current?.getInstance().getMarkdown());
+		onGetHtml(editRef.current?.getInstance().getHTML());
 	};
 
 	const onUploadImage = async (blob: any, callback: any) => {

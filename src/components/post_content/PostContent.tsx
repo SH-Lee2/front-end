@@ -7,7 +7,6 @@ import authStore from "../../store/authStore";
 import EditModal from "../edit_modal/EditModal";
 import { useNavigate } from "react-router-dom";
 import { deletePost } from "../../services/post";
-import Swal from "sweetalert2";
 
 interface Props {
 	post: Post;
