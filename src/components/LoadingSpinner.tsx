@@ -33,5 +33,6 @@ const SpinnerTag = styled.div`
 
 export const LoadingSpinnerWrapperTag = styled.div`
 	position: relative;
-	min-height: 100%;
+	min-height: 150px;
+	height: 100%;
 `;
