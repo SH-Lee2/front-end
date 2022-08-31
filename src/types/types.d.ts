@@ -25,6 +25,7 @@ export interface Token {
 	useNo: number;
 	sub?: string;
 	role?: string;
+    snsNick?:number;
 }
 
 export interface CommentT {

@@ -124,17 +124,6 @@ const Login = () => {
 									구글 로그인
 								</a>
 							</ButtonTag>
-							<ButtonTag
-								type="button"
-								bgColor="#19ce60"
-								color="#fff"
-								shadow={true}
-							>
-								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect">
-									<SiNaver />
-									네이버 로그인
-								</a>
-							</ButtonTag>
 						</div>
 					</FormTag>
 				</FormWrapperTag>

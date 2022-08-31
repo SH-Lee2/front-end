@@ -399,39 +399,6 @@ const Join = () => {
 						>
 							회원가입
 						</ButtonTag>
-						<div className="sns">
-							<ButtonTag
-								type="button"
-								bgColor="yellow"
-								shadow={true}
-							>
-								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth/redirect?join=true">
-									<RiKakaoTalkFill />
-									카카오 회원가입
-								</a>
-							</ButtonTag>
-							<ButtonTag
-								type="button"
-								bgColor="white"
-								shadow={true}
-							>
-								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect?join=true">
-									<FcGoogle />
-									구글 회원가입
-								</a>
-							</ButtonTag>
-							<ButtonTag
-								type="button"
-								bgColor="#19ce60"
-								color="#fff"
-								shadow={true}
-							>
-								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect?join=true">
-									<SiNaver />
-									네이버 회원가입
-								</a>
-							</ButtonTag>
-						</div>
 					</FormTag>
 				</FormWrapperTag>
 			</WrapperTag>

@@ -39,10 +39,8 @@ const SnsLogin = () => {
 	let checkedNickName = "";
 
 	const params = new URLSearchParams(location.search);
-	const join = params.get("join");
 	const token = params.get("token");
-	const { sub, useNo, role, useNick }: Token = jwtDecode(token);
-
+	const { sub, useNo, role, useNick ,snsNick }: Token = jwtDecode(token);
 	const addUserHandler = useCallback((nickname: string) => {
 		addUser(
 			{
@@ -55,7 +53,7 @@ const SnsLogin = () => {
 			token
 		);
 		onLoginSuccess(token);
-	},[]);
+	}, []);
 
 	const submitHandler = async (event: React.ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -64,27 +62,14 @@ const SnsLogin = () => {
 		navigate("/");
 	};
 
+	// 닉네밍 유무 체크 => 리다이렉션
 	useEffect(() => {
-		const checkUser = async () => {
-			const res = await checkId(sub);
-			if (res.data === true) {
-				Swal.fire({
-					position: "center",
-					icon: "error",
-					title: "이미 가입된 아이디 입니다.",
-					timer: 1500,
-					confirmButtonText: "확인",
-					confirmButtonColor: "skyblue",
-				}).then(()=>navigate("/login"));
-			}
-		};
-		if (join !== "true") {
+		// 초기 가입 유저인지 판별
+		if(snsNick !== 0) {
 			addUserHandler(useNick);
-			navigate("/")
-			return
+			return navigate("/")
 		}
-		checkUser();
-	
+
 	}, []);
 
 	useEffect(() => {
@@ -117,10 +102,9 @@ const SnsLogin = () => {
 		setGender(event.target.value);
 	};
 
-	
 	return (
 		<>
-			{join === "true" && (
+			{snsNick === 0 && (
 				<ContainerTag>
 					<FormTag onSubmit={submitHandler}>
 						<InputWrapperTag>
