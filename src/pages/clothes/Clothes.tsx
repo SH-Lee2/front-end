@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { mainDaily, mainFree } from '../../services/category';
 import * as c from '../../styles/Category';
+import * as d from '../../styles/DefalutImage';
 import { Post } from '../../types/types';
 
 const Clothes = () => {
@@ -48,9 +49,13 @@ const Clothes = () => {
             daily.map((art, i) => (
               <DailyCard key={i}>
                 <Link to={`/today_clothes/dailylook/${art.artNo}`} state={{ artNo: art.artNo }}>
-                  <c.Thumnail>
-                    <c.Img src={art.imgPath} alt='Clothes'/>
-                  </c.Thumnail>
+                  {art.imgPath !== null ? (
+                    <c.Thumnail>
+                      <c.Img src={art.imgPath} alt='Clothes'/>
+                    </c.Thumnail>                      
+                  ) : (
+                    <d.DefaultImage />
+                  )}
                   <span id='color'>{art.regAddr1} {art.regAddr2}</span>
                 </Link>
               </DailyCard>

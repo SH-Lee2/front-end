@@ -5,6 +5,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import Pagination from '../../components/Pagination';
 import { dailyCategory } from '../../services/category';
 import * as c from '../../styles/Category';
+import * as d from '../../styles/DefalutImage';
 import { PageT, Post } from '../../types/types';
 
 const DailyLook = () => {
@@ -40,9 +41,13 @@ const DailyLook = () => {
                         data.map((art,i) => (
                             <c.Card key={i}>
                                 <Link to={`/today_clothes/dailylook/${art.artNo}`} state={{ artNo: art.artNo }}>
-                                    <c.Thumnail>
-                                        <c.Img src={art.imgPath} alt='DailyLook'/>
-                                    </c.Thumnail>
+                                {art.imgPath !== null ? (
+                                        <c.Thumnail>
+                                            <c.Img src={art.imgPath} alt='DailyLook'/>
+                                        </c.Thumnail>
+                                    ) : (
+                                        <d.DefaultImage />
+                                )}
                                     <p id='color'>{art.artSubject}</p>
                                     <span id='color'>{art.useNick}&nbsp;</span>
                                     <span id='dis'>{art.regAddr1} {art.regAddr2}</span>

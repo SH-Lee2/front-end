@@ -5,6 +5,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import Pagination from '../../components/Pagination';
 import { myPosts } from '../../services/my';
 import authStore from '../../store/authStore';
+import * as d from '../../styles/DefalutImage';
 import Col from '../../styles/mypage/MyList';
 import * as i from '../../styles/mypage/TabInner';
 import { PageT, Post } from '../../types/types';
@@ -39,11 +40,17 @@ const Posts = () => {
         }
         arr.push(
             <Link to={`${categoryPath}/${artNo}`} state={{ artNo: artNo }} id='subject'>
-                <Thumnail>
-                    <div id='ThumImage'>
-                        <img src={imgPath} alt='MyPost' />
-                    </div>
-                </Thumnail>
+                {imgPath !== null ? (
+                    <Thumnail>
+                        <div id='ThumImage'>
+                            <img src={imgPath} alt='MyPost' />
+                        </div>
+                    </Thumnail>
+                ) : (
+                    <d.DefaultMyImage>
+                        <div id='inner'></div>
+                    </d.DefaultMyImage>
+                )}
                 <Title>
                     <span id='sub'>{artSubject}</span>
                     <span id='dist'>{regAddr1} {regAddr2}</span>
