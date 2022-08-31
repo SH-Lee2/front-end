@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Post } from "../../types/types";
 import Empty from "../Empty";
+import * as d from "../../styles/DefalutImage";
 
 interface Props {
 	posts: Post[];
@@ -18,14 +19,21 @@ const ImagePosts = ({ posts, path }: Props) => {
 				<ListTag>
 					{posts.map((post) => (
 						<li key={post.artNo}>
-							<Link to={`${path}/${post.artNo}`} state={{ artNo: post.artNo }}>
+							<Link
+								to={`${path}/${post.artNo}`}
+								state={{ artNo: post.artNo }}
+							>
 								<article>
 									<ImageWrapper>
 										{/* 임시 사진 */}
-										<PostImageTag
-											src={post.imgPath}
-											alt="게시물 이미지"
-										/>
+										{post.imgPath !== null ? (
+											<PostImageTag
+												src={post.imgPath}
+												alt="게시물 이미지"
+											/>
+										) : (
+											<DefaultImageTag/>
+										)}
 									</ImageWrapper>
 									<InfoWrapper>
 										<h3 className="art-subject">
@@ -155,3 +163,7 @@ const InfoWrapper = styled.div`
 		}
 	}
 `;
+
+const DefaultImageTag = styled(d.DefaultImage)`
+	height: 220px;
+`
