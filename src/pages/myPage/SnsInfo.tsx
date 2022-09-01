@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import authStore, { User } from '../../store/authStore';
 import * as i from '../../styles/mypage/TabInner';
+import { BASE_URL } from '../../utils/proxy';
 
 const SnsInfo = () => {
     const { userProfile, updateUser } = authStore();
@@ -12,13 +13,21 @@ const SnsInfo = () => {
 
     const [useNick,setNick] = useState('');
     const [nickMsg,setNickMsg] = useState('');
+    const [inputCheck, setInputCheck] = useState(false);
 
     //syncro
-    useEffect(() => { changeNick() }, [useNick])
+    useEffect(() => {
+        changeNick()
+        if (useNick.length > 0) {
+            setInputCheck(true)
+        } else {
+            setInputCheck(false)
+        }
+    }, [useNick])
 
     //변경함수
     const changeNick = () => {
-        axios.get(`/user/Nickname/${useNick}`)
+        axios.get(`${BASE_URL}/user/Nickname/${useNick}`)
         .then(res => {
             if (res.data.data === true && useNick.length <= 6) {
                 setNickMsg('중복된 닉네임입니다');
@@ -31,7 +40,7 @@ const SnsInfo = () => {
     }
 
     const updateNick = (userProfile : User|null) => {
-        axios.put('/user',{
+        axios.put(`${BASE_URL}/user`,{
             useNo : userProfile?.no,
             useNick : useNick,
         })
@@ -60,7 +69,7 @@ const SnsInfo = () => {
             <i.Title>닉네임 수정</i.Title>
             <i.InputOne placeholder='수정할 닉네임을 입력해주세요' onChange={(e)=> setNick(e.target.value)}/>
             <Msg>{nickMsg}</Msg>
-            <i.Btn onClick={() => updateNick(userProfile)}>확인</i.Btn>
+            <i.Btn onClick={() => updateNick(userProfile)} disabled={!inputCheck} >확인</i.Btn>
         </i.Outline>
     );
 };

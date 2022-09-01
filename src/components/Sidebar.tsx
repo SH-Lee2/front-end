@@ -6,7 +6,6 @@ import styled from "styled-components";
 import authStore from "../store/authStore";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
-import { logout } from "../services/user";
 const Sidebar = () => {
 	const [openSidebar, setOpenSidebar] = useState<boolean>(false);
 	const [openSubList, setOpenSubList] = useState<boolean>(false);
@@ -16,7 +15,7 @@ const Sidebar = () => {
 
 	const logoutHandler = () => {
 		setOpenSidebar(false);
-		logout(userProfile.no,removeUser)
+		removeUser()
 		navigate("/");
 	};
 
