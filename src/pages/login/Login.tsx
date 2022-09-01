@@ -108,7 +108,7 @@ const Login = () => {
 								bgColor="yellow"
 								shadow={true}
 							>
-								<a href="https://www.look-outside.ml/oauth2/authorization/kakao?redirect_uri=https://look-outside.netlify.app/oauth/redirect">
+								<a href="https://look-outside.ml/oauth2/authorization/kakao?redirect_uri=https://look-outside.netlify.app/oauth/redirect">
 									<RiKakaoTalkFill />
 									카카오 로그인
 								</a>
@@ -118,7 +118,7 @@ const Login = () => {
 								bgColor="white"
 								shadow={true}
 							>
-								<a href="https://www.look-outside.ml/oauth2/authorization/google?redirect_uri=https://look-outside.netlify.app/oauth/redirect">
+								<a href="https://look-outside.ml/oauth2/authorization/google?redirect_uri=https://look-outside.netlify.app/oauth/redirect">
 									<FcGoogle />
 									구글 로그인
 								</a>

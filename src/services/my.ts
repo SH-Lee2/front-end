@@ -43,5 +43,5 @@ export const myPosts = (useNo :number, curPage :number) => {
 }
 
 export const myDelete = (useNo :number) => {
-    return axios.delete(`${BASE_URL}/../user/${useNo}`)
+    return axios.delete(`${BASE_URL}/user/${useNo}`)
 }

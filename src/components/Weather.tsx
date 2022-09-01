@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
+import { weatherData } from '../services/weather';
 
 interface WeatherT {
     [key :number] : any,
@@ -23,7 +23,7 @@ const Map = ({onGetRegion}:Props) => {
     const regNum :string[] = ['01', '09', '10', '11', '12', '13', '14', '15', '16', '17'];
 
     const getWeather = async () => {
-        const res = await axios.get('/api')
+        const res = await weatherData()
         setData(res.data.list)
     }
 

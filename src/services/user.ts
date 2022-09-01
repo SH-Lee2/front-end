@@ -28,12 +28,6 @@ export const signUp = async (userInfo: UserInfo) => {
 	}
 };
 
-export const logout = async (useNo:number, removeUser:any)=>{
-	await axios.post(`${BASE_URL}/user/sign-out/${useNo}`)
-	removeUser()
-}
-
-
 export const checkId = async (userId: string) => {
 	const res = await axios.get(`${BASE_URL}/user/Id/${userId}`);
 	return res.data;
