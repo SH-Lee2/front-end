@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BASE_URL } from "../utils/proxy";
 
 interface Props {
 	artNo?:number;
@@ -35,14 +36,14 @@ export const postUpload = async ({
 		"articles",
 		`{"useNo":${useNo}, "artSubject": "${enteredTitle}","artContents": "${updateWrite}","artCategory":  "${categoryNum}","regNo": "${selectedRegion}","artWSelect" : ${selectedWeather}}`
 	);
-	const res = await axios.post("/article/post", form);
+	const res = await axios.post(`${BASE_URL}/article/post`, form);
 	return res;
 };
 
 //  메인 페이지 게시물
 export const getMainPosts = async (categoryNum: number, size: number) => {
 	try {
-		const res = await axios.get(`/article/category/${categoryNum}`, {
+		const res = await axios.get(`${BASE_URL}/article/category/${categoryNum}`, {
 			params: { size },
 		});
 		return res;
@@ -59,7 +60,7 @@ export const getCategoryPosts = async (
 	size?:number
 ) => {
 	try {
-		const res = await axios.get(`/article/list/${categoryNum}`, {
+		const res = await axios.get(`${BASE_URL}/article/list/${categoryNum}`, {
 			params: { page, regNo, size},
 		});
 		return res;
@@ -71,7 +72,7 @@ export const getCategoryPosts = async (
 // 상세 페이지
 export const getDetailPost = async (artNo: number) => {
 	try {
-		const res = await axios.get(`/article/${artNo}`);
+		const res = await axios.get(`${BASE_URL}/article/${artNo}`);
 		return res;
 	} catch (error: any) {
 		return error.response;
@@ -81,7 +82,7 @@ export const getDetailPost = async (artNo: number) => {
 //  게시물 삭제
 
 export const deletePost = async(artNo:number)=>{
-	await axios.delete(`/article/${artNo}`)
+	await axios.delete(`${BASE_URL}/article/${artNo}`)
 }
 
 //  게시물 수정
@@ -109,7 +110,7 @@ export const postUpdate = async ({
 		"articles",
 		`{"useNo":${useNo}, "artSubject": "${enteredTitle}","artContents": "${updateWrite}","artCategory":  "${categoryNum}","regNo": "${selectedRegion}","artWSelect" : ${selectedWeather}}`
 	);
-	const res = await axios.put(`/article/${artNo}`, form);
+	const res = await axios.put(`${BASE_URL}/article/${artNo}`, form);
 	return res;
 };
 
@@ -117,6 +118,6 @@ export const postUpdate = async ({
 export const uploadImage = async (image: any) => {
 	const form = new FormData();
 	form.append("multipartFiles", image);
-	const res = await axios.post(`/article/upload`, form);
+	const res = await axios.post(`${BASE_URL}/article/upload`, form);
 	return res.data.data[0];
 };
