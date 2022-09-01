@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/proxy/*"
+  to = "https://www.look-outside.ml/:splat"
+  status = 200
+  force = true

@@ -1,5 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { BASE_URL } from "../utils/proxy";
 const JWT_EXPIRY_TIME = 1800 * 1000;
 
 interface UserInfo {
@@ -20,7 +21,7 @@ interface Token {
 
 export const signUp = async (userInfo: UserInfo) => {
 	try {
-		const res = await axios.post("/user/sign-up", userInfo);
+		const res = await axios.post(`${BASE_URL}/user/sign-up`, userInfo);
 		return res;
 	} catch (error: any) {
 		return error;
@@ -28,43 +29,43 @@ export const signUp = async (userInfo: UserInfo) => {
 };
 
 export const logout = async (useNo:number, removeUser:any)=>{
-	await axios.post(`/user/sign-out/${useNo}`)
+	await axios.post(`${BASE_URL}/user/sign-out/${useNo}`)
 	removeUser()
 }
 
 
 export const checkId = async (userId: string) => {
-	const res = await axios.get(`/user/Id/${userId}`);
+	const res = await axios.get(`${BASE_URL}/user/Id/${userId}`);
 	return res.data;
 };
 
 export const checkNickName = async (userNickName: string) => {
-	const res = await axios.get(`/user/Nickname/${userNickName}`);
+	const res = await axios.get(`${BASE_URL}/user/Nickname/${userNickName}`);
 	return res.data;
 };
 
 export const checkEmail = async(userEmail:string)=>{
-	const res = await axios.get(`/user/Email/${userEmail}`);
+	const res = await axios.get(`${BASE_URL}/user/Email/${userEmail}`);
 	return res.data
 }
 
 export const findId = async (email: string) => {
 	try {
-		const res = await axios.get(`/user/myId/${email}`);
+		const res = await axios.get(`${BASE_URL}/user/myId/${email}`);
 		return res;
 	} catch (error: any) {
 		return error;
 	}
 };
 export const updatePassword = async (useId: string, password: string) => {
-	await axios.put(`/user/NewPw/${useId}`, {
+	await axios.put(`${BASE_URL}/user/NewPw/${useId}`, {
 		usePw: password,
 	});
 };
 
 export const login = async (userInfo: UserInfo, addUser: any) => {
 	try {
-		const res = await axios.post("/user/sign-in", userInfo, {
+		const res = await axios.post(`${BASE_URL}/user/sign-in`, userInfo, {
 			withCredentials: true,
 		});
 		const token = res.data.body.token;
@@ -86,7 +87,7 @@ export const login = async (userInfo: UserInfo, addUser: any) => {
 
 export const onSilentRefresh = () => {
 	axios
-		.get("/user/refresh")
+		.get(`${BASE_URL}/user/refresh`)
 		.then((res) => res.data.body && onLoginSuccess(res.data.body.token));
 };
 export const onLoginSuccess = (token: any) => {
@@ -101,7 +102,7 @@ export const infoEdit = async (
 	gender: string
 ) => {
 	try {
-		const res = await axios.put("/user", {
+		const res = await axios.put(`${BASE_URL}/user`, {
 			useNo: useNo,
 			useNick: nickname,
 			useGender: gender,

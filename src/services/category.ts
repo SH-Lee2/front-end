@@ -1,22 +1,23 @@
 import axios from "axios";
+import { BASE_URL } from "../utils/proxy";
 
 export const mainDaily = () => {
-    return axios.get('/article/category/0')
+    return axios.get(`${BASE_URL}/article/category/0`)
 }
 
 export const mainFree = () => {
-    return axios.get('/article/category/1', {params: {size: 5}})
+    return axios.get(`${BASE_URL}/article/category/1`, {params: {size: 5}})
 }
 
 export const dailyCategory = (region :string, curPage :number) => {
-    return axios.get('/article/list/0', {params: {
+    return axios.get(`${BASE_URL}/article/list/0`, {params: {
         regNo: region,
         page: curPage
     }})
 }
 
 export const skyCategory = (region :string, curPage :number) => {
-    return axios.get('/article/list/2', {params: {
+    return axios.get(`${BASE_URL}/article/list/2`, {params: {
         regNo: region,
         page: curPage
     }})

@@ -2,7 +2,7 @@
   "name": "front-end",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com",
+  "proxy": "https://www.look-outside.ml",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/user-event": "^13.5.0",
