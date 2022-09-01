@@ -62,5 +62,6 @@
     "@testing-library/react": "^12.1.5",
     "@types/html-escaper": "^3.0.0",
     "@types/react-router-dom": "^5.3.3"
-  }
+  },
+  "homepage": "https://look-outside.netlify.app"
 }

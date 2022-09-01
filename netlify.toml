@@ -1,3 +1,8 @@
+[build]
+publish = "build"
+command = "npm run build"
+base = "/"
+
 [[redirects]]
   from = "/proxy/*"
   to = "https://www.look-outside.ml/:splat"

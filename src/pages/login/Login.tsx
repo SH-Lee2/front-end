@@ -1,9 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import styled from "styled-components";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
-import { SiNaver } from "react-icons/si";
 import useInput from "../../hooks/use-input";
 import Swal from "sweetalert2";
 import { login } from "../../services/user";
@@ -109,7 +108,7 @@ const Login = () => {
 								bgColor="yellow"
 								shadow={true}
 							>
-								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth/redirect">
+								<a href="https://www.look-outside.ml/oauth2/authorization/kakao?redirect_uri=https://look-outside.netlify.app/oauth/redirect">
 									<RiKakaoTalkFill />
 									카카오 로그인
 								</a>
@@ -119,7 +118,7 @@ const Login = () => {
 								bgColor="white"
 								shadow={true}
 							>
-								<a href="http://springbootlookoutside-env.eba-khrbrhmx.us-west-1.elasticbeanstalk.com/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect">
+								<a href="https://www.look-outside.ml/oauth2/authorization/google?redirect_uri=https://look-outside.netlify.app/oauth/redirect">
 									<FcGoogle />
 									구글 로그인
 								</a>
