@@ -16,6 +16,7 @@ import styled from "styled-components";
 
 import { uploadImage } from "../../services/post";
 import { Post } from "../../types/types";
+import Swal from "sweetalert2";
 
 interface Props {
 	onGetHtml: (html: string) => void;
@@ -30,9 +31,20 @@ const WritePost = ({ onGetHtml, onGetImageArr, post }: Props) => {
 	};
 
 	const onUploadImage = async (blob: any, callback: any) => {
-		const url = await uploadImage(blob);
-		onGetImageArr(url);
-		callback(url, "");
+		if (blob.size > 10000000) {
+			Swal.fire({
+				position: "center",
+				icon: "warning",
+				title: "사진의 용량이 너무 큽니다.",
+				text: "10MB 이하의 사진만 업로드해주세요.",
+				confirmButtonText: "확인",
+				confirmButtonColor: "skyblue",
+			});
+		} else {
+			const url = await uploadImage(blob);
+			onGetImageArr(url);
+			callback(url, "");
+		}
 	};
 
 	const plugins = [colorSyntax, fontSize];
@@ -48,9 +60,7 @@ const WritePost = ({ onGetHtml, onGetImageArr, post }: Props) => {
 			<Editor
 				ref={editRef}
 				placeholder="내용을 입력해주세요."
-				initialValue={
-					post?.artContents ? post?.artContents : " "
-				}
+				initialValue={post?.artContents ? post?.artContents : " "}
 				previewStyle="vertical"
 				height="400px"
 				initialEditType="wysiwyg"
