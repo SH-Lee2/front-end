@@ -24,7 +24,10 @@ const Map = ({onGetRegion}:Props) => {
 
     const getWeather = async () => {
         const res = await weatherData()
+        console.log(res)
+        console.log(res.data)
         setData(res.data.list)
+        console.log(data)
     }
 
     useEffect(() => {

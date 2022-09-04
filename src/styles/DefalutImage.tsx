@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const DefaultColor = styled.div`
-    background-color: #f7f7f7;
+    background-color: #ede8e8;
     margin-bottom: 0.7em;
     border-radius: 5px;
 `;
