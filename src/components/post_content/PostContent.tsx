@@ -32,7 +32,7 @@ const PostContent = ({ post, region ,images}: Props) => {
 					<div>
 						<span className="nickname">{post?.useNick}</span>
 						{userProfile?.no === post?.useNo && (
-							<span className="mine">내 댓글</span>
+							<span className="mine">내 작성글</span>
 						)}
 					</div>
 					<div>

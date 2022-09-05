@@ -96,7 +96,7 @@ const Home = () => {
 			<SectionTag>
 				<SectionHeaderTag>
 					<SectionTitleTag>
-						<h2>데일리 룩</h2>
+						<h2>데일리룩</h2>
 					</SectionTitleTag>
 					<Link to="/today_clothes/dailylook">
 						<span className="more">

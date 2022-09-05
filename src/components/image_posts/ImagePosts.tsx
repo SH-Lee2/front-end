@@ -166,4 +166,5 @@ const InfoWrapper = styled.div`
 
 const DefaultImageTag = styled(d.DefaultColor)`
 	height: 220px;
+	margin: 0;
 `

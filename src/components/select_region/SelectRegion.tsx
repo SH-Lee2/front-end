@@ -82,7 +82,7 @@ interface Props {
 const SelectRezion = ({ onGetRegionNumber }: Props) => {
 	const { pathname } = useLocation();
 	const [selectedAddr1Num, setSelectedAddr1Num] = useState<string>(
-		pathname === "/upload_post" ? "01" :"00"
+		pathname === "/upload_post" ? "01" : "00"
 	);
 	const [selectedAddr1, setSelectedAddr1] = useState<string>(
 		pathname === "/upload_post" ? "서울특별시" : "전체"
@@ -94,14 +94,16 @@ const SelectRezion = ({ onGetRegionNumber }: Props) => {
 	const selectRef = useRef<any>(null);
 	useEffect(() => {
 		const region = async () => {
-			if(selectedAddr1Num !== "00"){
+			if (selectedAddr1Num !== "00") {
 				const res = await getRegion(selectedAddr1Num);
 				setAddr2(res.data.data);
 			}
-				setSelectedAddr2("전체");
-				onGetRegionNumber(selectedAddr1Num === "00" ? "" : selectedAddr1Num);
+			setSelectedAddr2("전체");
+			onGetRegionNumber(
+				selectedAddr1Num === "00" ? "" : selectedAddr1Num
+			);
 		};
-		region()
+		region();
 	}, [selectedAddr1Num]);
 
 	// ref 설정 외부 클릭 감지
@@ -119,6 +121,7 @@ const SelectRezion = ({ onGetRegionNumber }: Props) => {
 		return () =>
 			document.removeEventListener("mousedown", handleClickOutside);
 	});
+
 	return (
 		<SelectWrapperTag ref={selectRef}>
 			<DropdownTag onClick={() => setOpenAddr1((pre) => !pre)}>
@@ -156,31 +159,37 @@ const SelectRezion = ({ onGetRegionNumber }: Props) => {
 					</OptionTag>
 				)}
 			</DropdownTag>
-			<DropdownTag onClick={() => setOpenAddr2((pre) => !pre)}>
-				<SelectedTag>
-					<span>{!selectedAddr2 ? "전체" : selectedAddr2}</span>
-					<div>
-						{openAddr2 ? <MdArrowDropUp /> : <MdArrowDropDown />}
-					</div>
-				</SelectedTag>
-				{openAddr2 && (
-					<OptionTag>
-						<ul>
-							{addr2.map(({ regNo, regAddr2 }) => (
-								<li
-									key={regNo}
-									onClick={() => {
-										onGetRegionNumber(regNo);
-										setSelectedAddr2(regAddr2);
-									}}
-								>
-									{!regAddr2 ? "전체" : regAddr2}
-								</li>
-							))}
-						</ul>
-					</OptionTag>
-				)}
-			</DropdownTag>
+			{selectedAddr1Num !== "00" && (
+				<DropdownTag onClick={() => setOpenAddr2((pre) => !pre)}>
+					<SelectedTag>
+						<span>{!selectedAddr2 ? "전체" : selectedAddr2}</span>
+						<div>
+							{openAddr2 ? (
+								<MdArrowDropUp />
+							) : (
+								<MdArrowDropDown />
+							)}
+						</div>
+					</SelectedTag>
+					{openAddr2 && (
+						<OptionTag>
+							<ul>
+								{addr2.map(({ regNo, regAddr2 }) => (
+									<li
+										key={regNo}
+										onClick={() => {
+											onGetRegionNumber(regNo);
+											setSelectedAddr2(regAddr2);
+										}}
+									>
+										{!regAddr2 ? "전체" : regAddr2}
+									</li>
+								))}
+							</ul>
+						</OptionTag>
+					)}
+				</DropdownTag>
+			)}
 		</SelectWrapperTag>
 	);
 };
@@ -223,7 +232,8 @@ const OptionTag = styled.div`
 	top: 60px;
 	left: 0;
 	width: 100%;
-	height: 300px;
+	min-height: max-content;
+	max-height: 250px;
 	background-color: white;
 	border-radius: 5px;
 	overflow-y: scroll;
