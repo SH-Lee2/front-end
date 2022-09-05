@@ -16,7 +16,6 @@ interface Props {
 
 const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 	const { userProfile } = authStore();
-	const [openEdit, setOpenEdit] = useState<boolean>(false);
 	const [editMode, setEditMode] = useState<boolean>(false);
 	const [enteredComment, setEnteredComment] = useState<string>(
 		comment.repContents
@@ -56,7 +55,7 @@ const Comment = ({ comment, onDelete, onUpdate }: Props) => {
 								<span className="mine">내 댓글</span>
 							)}
 						</div>
-						<span className="time">{comment.repCreated}</span>
+						<span className="time">{comment.repCreated.slice(0,-3)}</span>
 					</div>
 					{userProfile?.nickname === comment.useNick && (
 						<EditModal

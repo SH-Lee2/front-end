@@ -70,7 +70,7 @@ const Clothes = () => {
 
         {free && (
           free.map((art, i) => (
-            <Link to={`/today_clothes/free/${art.artNo}`} key={i}>
+            <Link to={`/today_clothes/free/${art.artNo}`} state={{ artNo: art.artNo }} key={i}>
               <Article>
                 <span id='title'>{art.artSubject}</span>
                 <span id='dist'>{art.regAddr1} {art.regAddr2}</span>

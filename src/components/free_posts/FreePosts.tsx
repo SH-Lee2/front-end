@@ -14,7 +14,7 @@ const FreePosts = ({ posts, path }: Props) => {
 			{!posts.length ? (
 				<Empty />
 			) : (
-				<ListTag size={posts.length}>
+				<ListTag>
 					{posts.map((post) => (
 						<li key={post.artNo}>
 							<Link
@@ -29,7 +29,7 @@ const FreePosts = ({ posts, path }: Props) => {
 								<div className="right">
 									<div>
 										<span className="created">
-											{post.artCreated}
+											{post.artCreated.slice(0,-3)}
 										</span>
 									</div>
 									<div className="info">
@@ -64,23 +64,19 @@ const FreePostsTag = styled.div`
 	height: 100%;
 `;
 
-const ListTag = styled.ul<{ size: number }>`
+const ListTag = styled.ul`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 	li {
 		border-bottom: 2px solid lightgray;
-		:last-child {
-			border-bottom: ${({ size }) =>
-				size !== 1 ? "none" : "2px solid lightgray"};
-		}
 		a {
 			display: flex;
 			flex-direction: column;
-			justify-content: space-between;
 			padding: 1.2em;
 			color: black;
+			row-gap: .35em;
+
 		}
 	}
 	.left {

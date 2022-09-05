@@ -24,10 +24,7 @@ const Map = ({onGetRegion}:Props) => {
 
     const getWeather = async () => {
         const res = await weatherData()
-        console.log(res)
-        console.log(res.data)
         setData(res.data.list)
-        console.log(data)
     }
 
     useEffect(() => {
@@ -54,7 +51,7 @@ const Map = ({onGetRegion}:Props) => {
                 return arr
             case '09' :
             case '10' :
-                arr.push( <span key={i} id='sub'>{temp}℃ &nbsp;🌧</span> )
+                arr.push( <span key={i} id='sub'>{temp}℃ &nbsp;💧</span> )
                 return arr
             case '11' :
                 arr.push( <span key={i} id='sub'>{temp}℃ &nbsp;🌩</span> )

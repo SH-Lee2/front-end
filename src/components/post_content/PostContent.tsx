@@ -46,7 +46,7 @@ const PostContent = ({ post, region ,images}: Props) => {
 				)}
 			</HeaderTag>
 			<TitleTag>{post?.artSubject}</TitleTag>
-			<TimeTag>{post?.artCreated}</TimeTag>
+			<TimeTag>{post?.artCreated.slice(0,-3)}</TimeTag>
 			<Viewer initialValue={post?.artContents} />
 		</ArticleTag>
 	);
