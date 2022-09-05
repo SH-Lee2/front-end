@@ -7,6 +7,7 @@ import authStore from "../../store/authStore";
 import EditModal from "../edit_modal/EditModal";
 import { useNavigate } from "react-router-dom";
 import { deletePost } from "../../services/post";
+import { WEAHTER } from "../../utils/weatherData";
 
 interface Props {
 	post: Post;
@@ -21,8 +22,6 @@ const PostContent = ({ post, region ,images}: Props) => {
 		await deletePost(post.artNo)
 		navigate(-1)
 	};
-	
-	// 수정 페이지
 	const goToEdit = async() => {
 		navigate("/upload_post", {state : {post , images}})
 	}
@@ -39,6 +38,7 @@ const PostContent = ({ post, region ,images}: Props) => {
 					<div>
 						<span className="addr1">{region?.regAddr1}</span>
 						<span className="addr2">{region?.regAddr2}</span>
+						{post?.artWselect > 0 && <span className="weather">{WEAHTER[post.artWselect].icon}</span>}
 					</div>
 				</div>
 				{post?.useNo === userProfile?.no && (
@@ -92,7 +92,7 @@ const HeaderTag = styled.header`
 		column-gap: 0.25em;
 	}
 	.addr1,
-	.addr2 {
+	.addr2, .weather {
 		color: gray;
 		font-size: 0.65rem;
 	}
@@ -111,7 +111,7 @@ const HeaderTag = styled.header`
 			font-size: 0.7rem;
 		}
 		.addr1,
-		.addr2 {
+		.addr2, .weather {
 			font-size: 0.75rem;
 		}
 	}
